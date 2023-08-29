@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/react-chrome-app/node_modules
+/react-chrome-app/.pnp
+/react-chrome-app/.pnp.js
+
+# testing
+/react-chrome-app/coverage
+
+# production
+/react-chrome-app/build
+
+# misc
+/react-chrome-app/.DS_Store
+/react-chrome-app/.env.local
+/react-chrome-app/.env.development.local
+/react-chrome-app/.env.test.local
+/react-chrome-app/.env.production.local
+
+/react-chrome-app/npm-debug.log*
+/react-chrome-app/yarn-debug.log*
+/react-chrome-app/yarn-error.log*
