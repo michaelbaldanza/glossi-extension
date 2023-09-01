@@ -1,9 +1,35 @@
+import { useState } from 'react';
+import { login }  from '../services/users';
+
 function Login() {
+  const [creds, setCreds] = useState({
+    emailOrUsername: '',
+    password: '',
+  });
+
+  const [user, setUser] = useState(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCreds({
+      ...creds,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(creds);
+    const user = await login(creds);
+    console.log(user);
+  }
+
+
+
   return (
     <div className="inner-container">
       <h3>Login</h3>
       <form
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       >
         <div className="mb-3">
           <label htmlFor="emailOrUsername">Email or username</label>
@@ -12,7 +38,7 @@ function Login() {
             id="emailOrUsername"
             name="emailOrUsername"
             type="text"
-            // onChange={handleChange}
+            onChange={handleChange}
             autoComplete="username"
           />
         </div>
@@ -23,7 +49,7 @@ function Login() {
             id="password"
             name="password"
             type="password"
-            // onChange={handleChange}
+            onChange={handleChange}
             autoComplete="current-password"
           />
         </div>
