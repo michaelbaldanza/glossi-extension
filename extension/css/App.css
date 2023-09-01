@@ -1,0 +1,34 @@
+:root {
+  --dec-font: Georgia, 'Times New Roman', Times, serif;
+  --body-font: Arial, Helvetica, sans-serif;
+  --altum-bg: #732C2C;
+  --nav-text-primary: rgba(253, 253, 253, 1);
+  --nav-text-primary-faded: rgba(253, 253, 253, 0.5);
+  --nav-text-secondary: #ABA361;
+  --relief-bg: #F7F8FB;
+  --main-bg: rgba(253, 253, 253, 1);
+  --main-text-secondary: rgba(108, 117, 125, 1)
+}
+
+body {
+  font-family: var(--dec-font);
+}
+
+.navbar {
+  font-family: var(--body-font);
+  background-color: var(--altum-bg);
+}
+
+.navbar-brand {
+  color: var(--nav-text-primary);
+}
+
+.navbar-brand:hover, .navbar-brand:focus, .navbar:active:active {
+  color: var(--nav-text-secondary);
+}
+
+.infobox {
+  height: 380px;
+  width: 380px;
+  padding: 12px;
+}
