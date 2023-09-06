@@ -1,12 +1,24 @@
+import { useState } from 'react';
 import Nav from './components/Nav';
 import Login from './pages/Login';
+import { User } from './services/interfaces';
 
 function App() {
+  const [user, setUser] = useState<User | null>(null);
+
+
   return (
     <div>
       <Nav />
       <div className="infobox">
-        <Login />
+        {
+          user ? 
+          <div>
+            Hello, {user.username}
+          </div>
+          :
+          <Login user={[user, setUser]} />
+        }
       </div>
     </div>
   );

@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { login }  from '../services/users';
+import { User } from '../services/interfaces';
 
-function Login() {
+interface LoginProps {
+  user: [User | null, React.Dispatch<React.SetStateAction<User | null>>];
+}
+
+function Login(props: LoginProps) {
+  const [user, setUser] = props.user;
+
   const [creds, setCreds] = useState({
     emailOrUsername: '',
     password: '',
   });
 
-  const [user, setUser] = useState(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(`hitting handleChange`);
     setCreds({
       ...creds,
       [e.target.name]: e.target.value,
@@ -18,9 +24,12 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(creds);
-    const user = await login(creds);
-    console.log(user);
+    console.log(`hitting handleChange`);
+    const loggedUser = await login(creds);
+    if (loggedUser) {
+      setUser(loggedUser);
+    }
+    console.log(loggedUser);
   }
 
 

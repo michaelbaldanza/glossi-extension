@@ -1,5 +1,5 @@
-const BASE_URL = `http://localhost:3001/api/users/`;
-// const BASE_URL = `http://glossi.lat/api/users/`;
+// const BASE_URL = `http://localhost:3001/api/users/`;
+const BASE_URL = `http://glossi.lat/api/users/`;
 
 async function login(creds) {
   console.log(`hitting react chrome app login`)
