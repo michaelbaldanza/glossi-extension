@@ -6,7 +6,6 @@ import { User } from './services/interfaces';
 function App() {
   const [user, setUser] = useState<User | null>(null);
 
-
   return (
     <div>
       <Nav />

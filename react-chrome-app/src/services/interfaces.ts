@@ -63,7 +63,7 @@ interface User extends MongoDoc {
   bio?: string,
   profilePictureUrl?: string,
   scrolls: | Array<string> | Scroll[],
-  decks: |Array<string> | Deck[],
+  decks: | Array<string> | Deck[],
 }
 
 export type { User };

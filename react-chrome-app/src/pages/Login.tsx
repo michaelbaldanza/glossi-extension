@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { login }  from '../services/users';
 import { User } from '../services/interfaces';
 
@@ -24,13 +24,23 @@ function Login(props: LoginProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`hitting handleChange`);
     const loggedUser = await login(creds);
     if (loggedUser) {
       setUser(loggedUser);
     }
-    console.log(loggedUser);
+    const event = new CustomEvent('loggedUser', {
+      detail: {
+        user: loggedUser
+      }
+    });
+    document.dispatchEvent(event);
   }
+
+  useEffect(() => {
+    document.addEventListener('loggedUser', (e) => {
+      console.log(e)
+    });
+  }, [])
 
 
 
