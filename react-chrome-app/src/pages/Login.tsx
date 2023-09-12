@@ -15,7 +15,6 @@ function Login(props: LoginProps) {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(`hitting handleChange`);
     setCreds({
       ...creds,
       [e.target.name]: e.target.value,
@@ -33,16 +32,9 @@ function Login(props: LoginProps) {
         user: loggedUser
       }
     });
+
     document.dispatchEvent(event);
   }
-
-  useEffect(() => {
-    document.addEventListener('loggedUser', (e) => {
-      console.log(e)
-    });
-  }, [])
-
-
 
   return (
     <div className="inner-container">
