@@ -1,0 +1,48 @@
+:root {
+  --dec-font: Georgia, 'Times New Roman', Times, serif;
+  --body-font: Arial, Helvetica, sans-serif;
+  --altum-bg: #732C2C;
+  --nav-text-primary: rgba(253, 253, 253, 1);
+  --nav-text-primary-faded: rgba(253, 253, 253, 0.5);
+  --nav-text-secondary: #ABA361;
+  --relief-bg: #F7F8FB;
+  --main-bg: rgba(253, 253, 253, 1);
+  --main-text-secondary: rgba(108, 117, 125, 1)
+}
+
+.navbar {
+  font-family: var(--body-font);
+  background-color: var(--altum-bg);
+}
+.navbar .navbar-toggler, .navbar .dropdown-menu {
+  border: var(--nav-text-primary-faded) 0.5px solid;
+}
+.navbar .navbar-toggler:active, .navbar .navbar-toggler:focus {
+  border: var(--nav-text-secondary) 0.5px solid;
+}
+.navbar a, .navbar button {
+  color: var(--nav-text-primary) !important;
+}
+.navbar a:hover, .navbar a:active, .navbar a:focus, .navbar button:hover, .navbar button:active, .navbar button:focus {
+  color: var(--nav-text-secondary) !important;
+}
+.navbar .dropdown-menu, .navbar .dropdown-toggle, .navbar .dropdown-item:hover {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--altum-bg);
+}
+.navbar .dropdown-toggle {
+  background-color: #732c2c;
+  padding-left: 0;
+  padding-right: 0;
+}
+.navbar .dropdown-link {
+  text-decoration: none;
+}
+.navbar .btn {
+  border: none;
+  height: 40px;
+}
+
+.navbar .toggler-icon {
+  color: var(--nav-text-primary) !important;
+}

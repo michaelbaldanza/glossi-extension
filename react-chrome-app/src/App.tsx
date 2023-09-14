@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div>
-      <Nav />
+      <Nav user={[user, setUser]} />
       <div className="infobox">
         {
           user ? 
