@@ -4,7 +4,6 @@
 */
 
 function setupContextMenu() {
-  console.log('set up context menu');
   chrome.contextMenus.create({
     id: 'glossi-lookup',
     title: 'Search Glossi for "%s"',
@@ -13,12 +12,10 @@ function setupContextMenu() {
 }
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('add runtime.onInstalled listener');
   setupContextMenu();
 });
 
 chrome.contextMenus.onClicked.addListener((data) => {
-  console.log(`going to send message with ${data}`);
   chrome.runtime.sendMessage({
     name:'glossi-define',
     data: { value: data.selectionText },

@@ -8,8 +8,8 @@ export default function Anchor(props: AnchorProps) {
   const link = props.link ?? '#';
 
   return (
-    <a href={link} className={props.isDropItem ? 'dropdown-link' : 'nav-link'} target={link ? '_blank' : ''}>
+    <a href={link} className={props.isDropItem ? 'dropdown-link' : 'nav-link'} target={props.link ? '_blank' : ''}>
       {props.children}
     </a>
-  )
+  );
 }
