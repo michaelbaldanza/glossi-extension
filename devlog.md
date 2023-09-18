@@ -113,3 +113,9 @@ The React app is my extension's analogue to [`sidepanel.js`](https://github.com/
         setLookup(data.value);
       }
     });
+
+## September 18, 2023
+
+Stub up navigation systm and `Infobox` page/components.
+
+`App.tsx` has a `turnPage` function that controls what JSX is rendered. `turnPage` has a constant `pages` with the signature`Record<Page, JSX Element>`. `Nav`'s `Anchor` components have an `onClick` handler that sets `currentPage` to the `Anchor`'s `page` prop. `turnPage` returns the `pages` value at the `currentPage` look up.

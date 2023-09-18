@@ -2,13 +2,16 @@ import Anchor from './Anchor';
 import Dropdown from './Dropdown';
 import ListItem from './ListItem';
 import { User } from '../services/interfaces';
+import { type Page } from '../services/types';
 
 interface NavProps {
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
   user: [User | null, React.Dispatch<React.SetStateAction<User | null>>];
 }
 
 function Nav(props: NavProps) {
   const [user, setUser] = props.user;
+  const [currentPage, setCurrentPage] = props.currentPage;
 
   const togglerIcon = <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" className="bi bi-list" viewBox="0 0 16 16">
     <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
@@ -27,21 +30,26 @@ function Nav(props: NavProps) {
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <ListItem>
-              <Anchor>Decks</Anchor>
+              <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'infobox'}>
+                Look up
+              </Anchor>
             </ListItem>
             <ListItem>
-              <Anchor>Cards</Anchor>
+              <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'decks'}>Decks</Anchor>
+            </ListItem>
+            <ListItem>
+              <Anchor currentPage={[currentPage, setCurrentPage]} linkedPage={'cards'}>Cards</Anchor>
             </ListItem>
             {
               user ?
               <Dropdown text={user.username}>
                 <ListItem isDropItem={true}>
-                  <Anchor isDropItem={true} link={`https://glossi.lat/users${user.username}`}>
+                  <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'profile'} isDropItem={true} link={`https://glossi.lat/users/${user.username}`}>
                     View profile
                   </Anchor>
                 </ListItem>
                 <ListItem isDropItem={true}>
-                  <Anchor isDropItem={true}>
+                  <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'logout'} isDropItem={true}>
                     Log out
                   </Anchor>
                 </ListItem>
@@ -49,12 +57,12 @@ function Nav(props: NavProps) {
               :
               <>
                 <ListItem>
-                  <Anchor>
+                  <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'login'}>
                     Log in
                   </Anchor>
                 </ListItem>
                 <ListItem>
-                  <Anchor link={'https://glossi.lat/signup'}>
+                  <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'signup'} link={'https://glossi.lat/signup'}>
                     Sign up
                   </Anchor>
                 </ListItem>
