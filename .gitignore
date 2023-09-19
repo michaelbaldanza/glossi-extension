@@ -12,6 +12,7 @@
 /react-chrome-app/build
 
 # misc
+*.DS_Store
 /react-chrome-app/.DS_Store
 /react-chrome-app/.env.local
 /react-chrome-app/.env.development.local

@@ -12,7 +12,6 @@ export default function Anchor(props: AnchorProps) {
   const [currentPage, setCurrentPage] = props.currentPage;
   const linkedPage = props.linkedPage;
   const link = props.link ?? '#';
-  if (currentPage === linkedPage) console.log(`this is the currentPage`)
 
   return (
     <a

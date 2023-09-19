@@ -119,3 +119,46 @@ The React app is my extension's analogue to [`sidepanel.js`](https://github.com/
 Stub up navigation systm and `Infobox` page/components.
 
 `App.tsx` has a `turnPage` function that controls what JSX is rendered. `turnPage` has a constant `pages` with the signature`Record<Page, JSX Element>`. `Nav`'s `Anchor` components have an `onClick` handler that sets `currentPage` to the `Anchor`'s `page` prop. `turnPage` returns the `pages` value at the `currentPage` look up.
+
+## September 19
+
+### Loading state from API
+
+I struggled for a bit with loading dictionary results. This required me to re-evaluate how I typed `Result`.
+
+In this project, I've reused web Glossi's `dictionaries` module, with minor modifications. Discussing the module as a whole is outside the scope of this log entry; for my purposes, I just need its `collect` function, which sends sends `fetch` requests to the Wiktionary and Free Dictionary APIs, then returns their responses in a semi-standardized form.
+
+Each bundle from `collect` is added to the `lookupHistory` state, which is an array of objects representing each lookup in a user's session. The `lookupHistory` objects have a `quarry` property, which holds the word the user has looked up, and a `result` property, which holds the API responses from `collect.` It's typed like this in `services/types.tsx`:
+
+    interface Lookup {
+     quarry: string;
+     result: Result; 
+    }
+  
+
+Initially I had typed `Result` like this:
+
+    type Result = {} | {...} // complex object structure
+
+I did this because, when loading the response from `collect` the new `lookup` spent a moment as an empty object, triggering an error. This solved my problems for the time, but when I tried to access one of the dictionary keys on a `lookup`'s result property, I got an error saying that the key didn't exist on `Result`.
+
+It turned out what I needed was twofold:
+
+1. Type `Result` so that an attempt can be made to access it with any string.
+
+        interface Result {
+          [key: string]: {...}
+        }
+
+1. `collect` is loaded from a vanilla JS module. It worked, but without type information, TypeScript didn't know how to handle the empty object in the `result` property while it waited for the promise to resolve. Instead of refactoring the `dictionaries` module, I opted for a targeted solution: adding a TypeScript declaration (`.d.ts`) file to describe the types for `collect`.
+
+        touch src/services/collect.d.ts
+
+        // in collect.d.ts
+        import { Result } from './types';
+
+        declare module './dictionaries' {
+          export function collect(term: string): Promise<Result>;
+        }
+
+After that, adding new lookups works as expected.

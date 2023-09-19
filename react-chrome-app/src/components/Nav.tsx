@@ -2,7 +2,7 @@ import Anchor from './Anchor';
 import Dropdown from './Dropdown';
 import ListItem from './ListItem';
 import { User } from '../services/interfaces';
-import { type Page } from '../services/types';
+import { type DictAbbr, type Page } from '../services/types';
 
 interface NavProps {
   currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
