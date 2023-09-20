@@ -13,7 +13,7 @@ interface InfoboxProps {
 }
 
 function Infobox(props: InfoboxProps) {
-  const [activeDict, setActiveDict] = useState<DictAbbr>('wikt');
+  const [activeDict, setActiveDict] = useState<DictAbbr>('fd');
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   if (lookupHistory.length < 1) {
@@ -29,8 +29,9 @@ function Infobox(props: InfoboxProps) {
       <Nav activeDict={[activeDict, setActiveDict]} />
       <Main
         activeDict={[activeDict, setActiveDict]}
-        lookupIdx={[lookupIdx, setLookupIdx]}
-        lookupHistory={[lookupHistory, setLookupHistory]}
+        current={current}
+        setLookupIdx={setLookupIdx}
+        setLookupHistory={setLookupHistory}
       />
     </div>
   );

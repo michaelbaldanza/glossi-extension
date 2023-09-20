@@ -162,3 +162,11 @@ It turned out what I needed was twofold:
         }
 
 After that, adding new lookups works as expected.
+
+## September 20
+
+Slow work of writing types for the Wiktionary and Free Dictionary API responses. The most stuck I got was writing the `Dictionary` module, figuring out how to return JSX depending on the API, and then whether the response has an error.
+
+I settled on writing interfaces to describe each level of the Free Dictionary and Wiktionary responses. Now the `DictInfo` interface has a `response` type that expects `Array<FDResponse>` or `WiktResponse`. The `books` object in `Dictionary` which stores the response-specific JSX in functions paired with a key equal to the API abbreviation has type guarding to keep from erroring out. `fd` checks calls the `isFdError` function, which checks if the response is an `FDError` instead of `DictInfo`. Then it has a function which checks whether the response `response` key value type is `Array<FDResponse>` or `WiktResponse`. Uses [`type predicates`](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates) for narrowing.
+
+Seems redundant at the moment. I have an object look up that initiates the function which triggers two narrowing functions (error, FD vs Wikt response type).

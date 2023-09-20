@@ -7,8 +7,6 @@ import { collect } from './services/dictionaries';
 import Home from './pages/Home';
 import Infobox from './pages/Infobox/Infobox';
 
-
-
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [lookupHistory, setLookupHistory] = useState<Array<Lookup>>([]);
@@ -39,79 +37,63 @@ function App() {
   }
 
   useEffect(() => {
-  //   chrome.storage.local.get(['user']).then((result) => {
-  //     if (result.hasOwnProperty('user')) {
-  //       setUser(result.user);
-  //     }
-  //   });
-
-  //   chrome.runtime.onMessage.addListener(({ name, data }) => {
-  //     console.log(data);
-  //     /*
-  //       Adapted from Google Chrome's Dictionary side panel example.
-  //       https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/sample.sidepanel-dictionary/sidepanel.js
-  //     */
-  //     setLookup(data.value);
-
-  //     if (name === 'glossi-define') {
-  //       const fetchData = async () => {
-  //         try {
-  //           const result = await collect(data.value);
-  //           const newLookupHistory = lookupHistory.slice();
-  //           newLookupHistory.push(result);
-  //           setLookupHistory(newLookupHistory);
-  //           console.log(result)
-  //         } catch(err) {
-  //           console.error('Error fetching data', err)
-  //         }
-  //       }
-  //       fetchData();
-  //     }
-  //   });
-    if (lookup.length > 0) {
-      const fetchData = async () => {
-        try {
-          const newLookupHistory = lookupHistory.slice();
-          // await collect(lookup).then((result) => {
-            const newLookup: Lookup = {
-              quarry: lookup,
-              result: await collect(lookup)
-            };
-            newLookupHistory.push(newLookup);
-            setLookupHistory(newLookupHistory);
-          // });
-        } catch(err) {
-          console.error('Error fetching data', err)
-        }
+    chrome.storage.local.get(['user']).then((result) => {
+      if (result.hasOwnProperty('user')) {
+        setUser(result.user);
       }
-      fetchData();
-    }
+    });
+
+    chrome.runtime.onMessage.addListener(({ name, data }) => {
+      console.log(data);
+      /*
+        Adapted from Google Chrome's Dictionary side panel example.
+        https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/sample.sidepanel-dictionary/sidepanel.js
+      */
+      setLookup(data.value);
+
+      if (name === 'glossi-define') {
+        const fetchData = async () => {
+          try {
+            const newLookupHistory = lookupHistory.slice();
+            // await collect(lookup).then((result) => {
+              const newLookup: Lookup = {
+                quarry: lookup,
+                result: await collect(lookup)
+              };
+              newLookupHistory.push(newLookup);
+              setLookupHistory(newLookupHistory);
+            // });
+          } catch(err) {
+            console.error('Error fetching data', err)
+          }
+        }
+        fetchData();
+      }
+    });
+  //   if (lookup.length > 0) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const newLookupHistory = lookupHistory.slice();
+  //         // await collect(lookup).then((result) => {
+  //           const newLookup: Lookup = {
+  //             quarry: lookup,
+  //             result: await collect(lookup)
+  //           };
+  //           newLookupHistory.push(newLookup);
+  //           setLookupHistory(newLookupHistory);
+  //         // });
+  //       } catch(err) {
+  //         console.error('Error fetching data', err)
+  //       }
+  //     }
+  //     fetchData();
+  //   }
   }, [])
 
   return (
     <div>
       <Nav currentPage={[currentPage, setCurrentPage]} user={[user, setUser]} />
       <div>{turnPage()}</div>
-      <div className="infobox">
-        {
-          user ? 
-          <div>
-            Hello, {user.username}
-          </div>
-          :
-          <Login user={[user, setUser]} />
-        }
-      </div>
-      <div>
-        {
-          lookup.length ?
-          'Going to look up ' + lookup :
-          'Right click on a word and select the Glossi option to get started.'
-        }
-        {
-          lookupHistory.length > 0 ? '# of items in lookupHistory: ' + lookupHistory.length : ''
-        }
-      </div>
     </div>
   );
 }
