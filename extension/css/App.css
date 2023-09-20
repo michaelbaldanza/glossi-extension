@@ -26,9 +26,3 @@ body {
 .navbar-brand:hover, .navbar-brand:focus, .navbar:active:active {
   color: var(--nav-text-secondary);
 }
-
-.infobox {
-  height: 380px;
-  width: 380px;
-  padding: 12px;
-}

@@ -5,7 +5,6 @@ import Main from './Main';
 import Nav from './Nav';
 
 interface InfoboxProps {
-  lookup: string;
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   lookupHistory: [
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
@@ -25,7 +24,7 @@ function Infobox(props: InfoboxProps) {
 
   return (
     <div className="infobox">
-      <Header lookup={props.lookup} lookupIdx={props.lookupIdx} />
+      <Header lookup={current.quarry} lookupIdx={props.lookupIdx} />
       <Nav activeDict={[activeDict, setActiveDict]} />
       <Main
         activeDict={[activeDict, setActiveDict]}

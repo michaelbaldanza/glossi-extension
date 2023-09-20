@@ -1,5 +1,10 @@
 type DictAbbr = 'fd' | 'wikt';
+type DictName = 'Free Dictionary' | 'Wiktionary';
 type Page = 'cards' | 'decks' | 'home' | 'infobox' | 'login' | 'logout' | 'profile' | 'signup';
+
+type DictAbbrToDictNameMap = {
+  [key in DictAbbr]: DictName;
+}
 
 interface FDError {
   title: string;
@@ -64,4 +69,4 @@ interface Lookup {
   result: Result;
 }
 
-export type { DictAbbr, DictInfo, FDError, FDMeaning, FDResponse, Lookup, Page, Result, WiktResponse };
+export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FDError, FDMeaning, FDResponse, Lookup, Page, Result, WiktResponse };

@@ -170,3 +170,14 @@ Slow work of writing types for the Wiktionary and Free Dictionary API responses.
 I settled on writing interfaces to describe each level of the Free Dictionary and Wiktionary responses. Now the `DictInfo` interface has a `response` type that expects `Array<FDResponse>` or `WiktResponse`. The `books` object in `Dictionary` which stores the response-specific JSX in functions paired with a key equal to the API abbreviation has type guarding to keep from erroring out. `fd` checks calls the `isFdError` function, which checks if the response is an `FDError` instead of `DictInfo`. Then it has a function which checks whether the response `response` key value type is `Array<FDResponse>` or `WiktResponse`. Uses [`type predicates`](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates) for narrowing.
 
 Seems redundant at the moment. I have an object look up that initiates the function which triggers two narrowing functions (error, FD vs Wikt response type).
+
+### When you have to add a type annotation to a variable
+
+Little bit of a block just now: messing around with getting this to work as a Chrome extension that can look up words on a webpage, rather than feeding it words in the state declaration as I've been doing for a few days. I had a problem assigning the `data.value` from `chrome.onMessage` to `result` in the `App` module `useEffect`. I had this error message:
+
+    Type '{}' is not assignable to type 'Result'.
+      Index signature for type 'string' is missing in type '{}'.
+
+This confused me because `data.value` was a `string` when I checked it with `typeof`. In the end, TypeScript just needed assurance that I wasn't going to try to assign `result` an object (or maybe `data.value`, although it passes as a `string`, is read as an object with the signature `{ value: ${MY_VALUE} }`). I silenced the error by assigning `data.value` to a variable with [type annotation](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-annotations-on-variables).
+
+    const lookup: string = data.value;

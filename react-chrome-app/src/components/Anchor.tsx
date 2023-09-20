@@ -18,7 +18,10 @@ export default function Anchor(props: AnchorProps) {
       href={link}
       className={props.isDropItem ? 'dropdown-link' : 'nav-link'}
       target={props.link ? '_blank' : ''}
-      onClick={() => setCurrentPage(linkedPage)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setCurrentPage(linkedPage);
+      }}
     >
       {props.children}
     </a>
