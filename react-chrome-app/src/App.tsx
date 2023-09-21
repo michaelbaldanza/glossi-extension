@@ -34,7 +34,6 @@ function App() {
   }
 
   useEffect(() => {
-    console.log(`doing useEffect`)
     chrome.storage.local.get(['user']).then((result) => {
       if (result.hasOwnProperty('user')) {
         setUser(result.user);

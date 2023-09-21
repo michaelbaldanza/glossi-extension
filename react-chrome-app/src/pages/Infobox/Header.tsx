@@ -9,7 +9,7 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="action-heading">
-      {props.lookup.length > 0 ? quarry : 'no look up yet'}
+      <h6>{quarry}</h6>
     </div>
   );
 }

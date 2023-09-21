@@ -13,11 +13,6 @@ function Main(props: MainProps) {
 
   const current = props.current;
   const quarry = current.quarry;
-  console.log(current.result)
-  const result: Result = current.result;
-  console.log(`here's the result`);
-  console.log(result['wikt'])
-  
 
   function makeDictionaryPanels() {
     const refOrder: Array<DictAbbr> = ['wikt', 'fd'];

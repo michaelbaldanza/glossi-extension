@@ -8,6 +8,18 @@
   padding: 0;
 }
 
+.infobox h6 {
+  margin: 0;
+}
+
+.part-of-speech-heading {
+  font-size: small;
+}
+
+.infobox {
+  font-size: small;
+}
+
 @media (min-width: 402px) {
   .infobox {
     height: 380px;

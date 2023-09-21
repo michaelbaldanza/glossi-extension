@@ -18,10 +18,9 @@ function isFDError(resp: DictInfo | FDError): resp is FDError {
 }
 
 function Dictionary(props: DictionaryProps) {
-  const resp = props.resp;
-  const activeDict = props.activeDict;
+  const { activeDict, resp } = props;
 
-  function mapEntries(entryArr: Array<FDMeaning>, idx0: number) {
+  function mapEntries(entryArr: Array<FDMeaning>, idx0: number, headword?: string) {
     return entryArr.map((entry, idx1) => {
       const entryId = `${activeDict}${idx0}-entry${idx1}`;
       return (
@@ -30,6 +29,7 @@ function Dictionary(props: DictionaryProps) {
           entryId={entryId}
           activeDict={activeDict}
           entry={entry}
+          headword={headword}
           quarry={props.quarry}
         />
       );
@@ -39,15 +39,19 @@ function Dictionary(props: DictionaryProps) {
   const books: Record<DictAbbr, () => JSX.Element> = {
     'fd': function() {
       if (isFDError(resp)) { // error handling
+        const { title, message, resolution } = resp;
         return (
           <div className="error-message">
-            <div>{resp.title}</div>
-            <div>{resp.message}</div>
-            <div>{resp.resolution}</div>
+            <div>{title}</div>
+            <div>{message}</div>
+            <div>{resolution}</div>
           </div>
         );
       } else if (isFDResponse(resp.response)) {
-        return <>{resp.response.map((term, idx0) => mapEntries(term.meanings, idx0))}</>;
+        return <>{resp.response.map((term, idx0) => {
+          const { word, meanings } = term;
+          return mapEntries(meanings, idx0, word);
+        })}</>;
       }
       return <div>Something went wrong.</div>
     },

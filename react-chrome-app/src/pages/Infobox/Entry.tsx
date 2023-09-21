@@ -4,6 +4,7 @@ interface EntryProps {
   activeDict: DictAbbr;
   entry: FDMeaning;
   entryId: string;
+  headword?: string;
   quarry: string;
 }
 
@@ -18,16 +19,21 @@ function Entry(props: EntryProps) {
       className={`entry-container`}
       id={entryId}
     >
-      <h6>{quarry}</h6>
+      {
+        props.headword && props.headword !== quarry.toLowerCase() ?
+        <h6>{props.headword}</h6>
+        :
+        ''
+      }
       {
         entry.partOfSpeech ?
         <div className="part-of-speech-container">
-          <h6>{entry.partOfSpeech.toLowerCase()}</h6>
+          <h6 className="part-of-speech-heading faded">{entry.partOfSpeech.toLowerCase()}</h6>
         </div>
         :
         ''
       }
-      <ol>
+      <ol className="def-list">
         {
           entry.definitions.map((def, idx2) => {
             const defId = `${props.entryId}-def${idx2}`;

@@ -42,6 +42,7 @@ interface WiktResponse {
 interface FDResponse {
   license: object;
   meanings: Array<FDMeaning>;
+  word: string;
 }
 
 interface DictInfo {

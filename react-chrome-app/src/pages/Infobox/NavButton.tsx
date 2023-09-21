@@ -13,7 +13,7 @@ function NavButton(props: NavButtonProps) {
 
   return(
     <button
-      className={`btn btn-link link-secondary toolbar-btn ${dictAbbr === activeDict ? 'active' : 'text-decoration-none'}`}
+      className={`btn btn-link link-secondary toolbar-btn infobox-nav-btn ${dictAbbr === activeDict ? 'active' : 'text-decoration-none'}`}
       data-bs-toggle={dictAbbr === activeDict ? 'button' : ''}
       aria-pressed={dictAbbr === activeDict ? 'true' : 'false'}
       onClick={(e) => {
