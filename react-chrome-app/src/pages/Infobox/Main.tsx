@@ -17,6 +17,11 @@ function Main(props: MainProps) {
   function makeDictionaryPanels() {
     const refOrder: Array<DictAbbr> = ['wikt', 'fd'];
     return refOrder.map((dictabbr, idx0) => {
+      const resp = current.result[dictabbr];
+      const key = dictabbr + 'Resp';
+      const respProp = {
+        [key]: resp
+      };
       return (
         <div
           key={`${dictabbr}-${idx0}`}
@@ -24,9 +29,9 @@ function Main(props: MainProps) {
           style={{'display': activeDict ===  dictabbr ? 'block' : 'none'}}
         >
           <Dictionary
+            {...respProp}
             activeDict={activeDict}
             quarry={quarry}
-            resp={current.result[dictabbr]}
             setLookupHistory={props.setLookupHistory}
             setLookupIdx={props.setLookupIdx}
           />

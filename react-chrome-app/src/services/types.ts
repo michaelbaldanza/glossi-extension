@@ -6,6 +6,11 @@ type DictAbbrToDictNameMap = {
   [key in DictAbbr]: DictName;
 }
 
+interface WiktError {
+  title: string;
+  detail: string;
+}
+
 interface FDError {
   title: string;
   message: string;
@@ -36,13 +41,27 @@ interface WiktMeaning {
 }
 
 interface WiktResponse {
-  [key: string]: Array<WiktMeaning>;
+  // [key: string]: Array<WiktMeaning>;
+  [key: string]: Array<any>;
 }
 
 interface FDResponse {
   license: object;
   meanings: Array<FDMeaning>;
   word: string;
+}
+
+interface DictBasics {
+  abbr: string;
+  name: string;
+}
+
+interface FdInfo extends DictBasics {
+  response: Array<FDResponse>;
+}
+
+interface WiktInfo extends DictBasics {
+  response: WiktResponse;
 }
 
 interface DictInfo {
@@ -57,7 +76,7 @@ interface Dicts {
 }
 
 interface Result {
-  [key: string]: DictInfo;
+  [key: string]: FdInfo | WiktInfo;
 }
 
 // type Result = Record<DictAbbr, DictInfo>;
@@ -70,4 +89,4 @@ interface Lookup {
   result: Result;
 }
 
-export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FDError, FDMeaning, FDResponse, Lookup, Page, Result, WiktResponse };
+export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FDError, FdInfo, FDMeaning, FDResponse, Lookup, Page, Result, WiktError, WiktInfo, WiktResponse };
