@@ -46,6 +46,8 @@ function App() {
         Adapted from Google Chrome's Dictionary side panel example.
         https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/sample.sidepanel-dictionary/sidepanel.js
       */
+      console.log('check if user state has been set in chrome.runtime')
+      console.log(user);
       const lookup: string = data.value;
       if (name === 'glossi-define') {
         const fetchData = async () => {
@@ -55,8 +57,11 @@ function App() {
               quarry: lookup,
               result: await collect(lookup)
             };
-            if (newLookup.result.wikt && !newLookup.result.wikt.response.hasOwnProperty('title')) {
-              setSelLang(newLookup.result.wikt.response.hasOwnProperty('en') ? 'en' : Object.keys(newLookup.result.wikt.response)[0])
+            const wiktRes = newLookup.result.wikt.response;
+            if (!wiktRes.hasOwnProperty('title')) {
+              setSelLang(wiktRes.hasOwnProperty('en') ? 'en' : Object.keys(wiktRes)[0])
+            } else {
+              setSelLang(null);
             }
             newLookupHistory.push(newLookup);
             

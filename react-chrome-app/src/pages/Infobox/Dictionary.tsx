@@ -15,6 +15,8 @@ interface DictionaryProps {
 function Dictionary(props: DictionaryProps) {
   const { activeDict } = props;
 
+  console.log(props.lookupHistory)
+
   function loadActiveDictionary() {
     function mapEntries(entryArr: Array<Meaning>, idx0: number, headword?: string) {
       return entryArr.map((entry, idx1) => {
@@ -51,9 +53,12 @@ function Dictionary(props: DictionaryProps) {
         })}</>;
       }
     } else if (activeDict === 'wikt' && props.wiktResp) {
+      console.log(`going to have a Wiktionary error`)
       const wiktResp = props.wiktResp;
+      console.log(wiktResp)
       if (isWiktError(wiktResp)) {
         const { title, detail } = wiktResp;
+        console.log(`trying to offer up a wikt error`)
         return (
           <div className="error-message">
             <div>{title}</div>
@@ -95,7 +100,7 @@ function Dictionary(props: DictionaryProps) {
         );
       }
     }
-    return (<>Something went wrong.</>)
+    return (<></>)
   }
 
   return loadActiveDictionary();

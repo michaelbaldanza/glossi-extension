@@ -22,7 +22,6 @@ function Entry(props: EntryProps) {
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const quarry = lookupHistory[lookupIdx].quarry;
 
-
   return (
     <div
       className={`entry-container`}
@@ -62,6 +61,8 @@ function Entry(props: EntryProps) {
                         escape(text) ?
                           text :
                           <Word
+                            key={`${activeDict}-def${idx2}-line${idx3}-word${idx4}`}
+                            spanId={`${activeDict}-def${idx2}-line${idx3}-word${idx4}`}
                             lookupHistory={props.lookupHistory}
                             lookupIdx={props.lookupIdx}
                             text={text}

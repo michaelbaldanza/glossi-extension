@@ -8,6 +8,7 @@ interface WordProps {
   ];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  spanId: string;
   text: string;
 }
 
@@ -25,12 +26,16 @@ function Word(props: WordProps) {
       quarry: term,
       result: await collect(term),
     };
+    const wiktRes = newLookup.result.wikt.response;
+    if (!wiktRes.hasOwnProperty('')) {
+
+    }
     setLookupHistory([...lookupHistory.slice(0, lookupIdx + 1), newLookup]);
     setLookupIdx(lookupIdx + 1);
   }
 
   return (
-    <span onClick={(e) => handleClick(e)}>{text}</span>
+    <span className="word-span" id={props.spanId} onClick={(e) => handleClick(e)}>{text}</span>
   );
 }
 
