@@ -5,10 +5,10 @@ import Main from './Main';
 import Nav from './Nav';
 
 interface InfoboxProps {
-  lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   lookupHistory: [
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
   ];
+  lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
 }
 
@@ -20,17 +20,16 @@ function Infobox(props: InfoboxProps) {
   if (lookupHistory.length < 1) {
     return <div>No look ups yet</div>
   }
-
+  console.log(lookupHistory)
   return (
     <div className="infobox">
       <Header lookup={current.quarry} lookupIdx={props.lookupIdx} />
       <Nav activeDict={[activeDict, setActiveDict]} />
       <Main
         activeDict={[activeDict, setActiveDict]}
-        current={current}
         selLang={props.selLang}
-        setLookupIdx={setLookupIdx}
-        setLookupHistory={setLookupHistory}
+        lookupIdx={[lookupIdx, setLookupIdx]}
+        lookupHistory={[lookupHistory, setLookupHistory]}
       />
     </div>
   );

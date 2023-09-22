@@ -9,7 +9,7 @@ function Header(props: HeaderProps) {
 
   return (
     <div className="action-heading">
-      <h6>{quarry}</h6>
+      <h5>{quarry}</h5>
     </div>
   );
 }

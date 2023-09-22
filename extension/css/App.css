@@ -34,3 +34,7 @@ body {
 .faded {
   opacity: 50%;
 }
+
+.btn-lang-bar {
+  font-size: smaller;
+}

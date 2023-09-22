@@ -21,7 +21,8 @@ function Nav(props: NavProps) {
         return (
           <NavButton
             key={`${dictAbbr}-btn`}
-            activeDict={[activeDict, setActiveDict]}
+            activeDict={activeDict}
+            setActiveDict={setActiveDict}
             dictAbbr={dictAbbr}
             dictName={dictName}
           >

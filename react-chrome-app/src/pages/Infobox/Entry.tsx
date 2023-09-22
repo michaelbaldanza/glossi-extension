@@ -1,4 +1,5 @@
-import type { DictAbbr, Meaning } from '../../services/types';
+import Word from './Word';
+import type { DictAbbr, Lookup, Meaning } from '../../services/types';
 import { breakLines, clipTags, escape } from '../../services/helpers';
 
 interface EntryProps {
@@ -6,7 +7,10 @@ interface EntryProps {
   entry: Meaning;
   entryId: string;
   headword?: string;
-  quarry: string;
+  lookupHistory: [
+    Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
+  ];
+  lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
 }
 
@@ -14,7 +18,10 @@ function Entry(props: EntryProps) {
   const activeDict = props.activeDict;
   const entry = props.entry;
   const entryId = props.entryId;
-  const quarry = props.quarry
+  const [lookupHistory, setLookupHistory] = props.lookupHistory;
+  const [lookupIdx, setLookupIdx] = props.lookupIdx;
+  const quarry = lookupHistory[lookupIdx].quarry;
+
 
   return (
     <div
@@ -51,8 +58,14 @@ function Entry(props: EntryProps) {
                 >
                   {
                     breakLines(def).map((line, idx3) => (
-                      line.split(/(\s|\/)/g).map((word, idx4) => (
-                        escape(word) ? word : word
+                      line.split(/(\s|\/)/g).map((text, idx4) => (
+                        escape(text) ?
+                          text :
+                          <Word
+                            lookupHistory={props.lookupHistory}
+                            lookupIdx={props.lookupIdx}
+                            text={text}
+                          />
                       ))
                     ))
                   }

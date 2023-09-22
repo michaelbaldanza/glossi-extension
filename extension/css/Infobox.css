@@ -8,7 +8,7 @@
   padding: 0;
 }
 
-.infobox h6 {
+.infobox h5, .infobox h6 {
   margin: 0;
 }
 
@@ -17,6 +17,10 @@
 }
 
 .infobox {
+  font-size: small;
+}
+
+.btn-dict-bar {
   font-size: small;
 }
 
