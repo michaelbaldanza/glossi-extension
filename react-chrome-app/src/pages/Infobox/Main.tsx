@@ -37,7 +37,7 @@ function Main(props: MainProps) {
         <div
           key={`${dictabbr}-${idx0}`}
           id={dictabbr}
-          className="dictionary-container"
+          className={`dictionary-container ${dictabbr === activeDict ? 'd-block' : 'd-none'}`}
         >
           <Dictionary
             {...respProp}
