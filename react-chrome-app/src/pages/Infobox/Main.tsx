@@ -1,9 +1,10 @@
-import type { DictAbbr, DictInfo, Lookup, Result } from '../../services/types';
+import type { DictAbbr, DictInfo, FdInfo, Lookup, Result, WiktInfo } from '../../services/types';
 import Dictionary from './Dictionary';
 
 interface MainProps {
   activeDict: [DictAbbr, React.Dispatch<React.SetStateAction<DictAbbr>>];
   current: Lookup;
+  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
   setLookupHistory: React.Dispatch<React.SetStateAction<Array<Lookup>>>;
   setLookupIdx: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -19,9 +20,22 @@ function Main(props: MainProps) {
     return refOrder.map((dictabbr, idx0) => {
       const resp = current.result[dictabbr];
       const key = dictabbr + 'Resp';
-      const respProp = {
+      const respProp: {
+        'wikt'?: WiktInfo,
+        'fd'?: FdInfo,
+        'selLang'?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+      } = {
         [key]: resp
       };
+      if (dictabbr === 'wikt') {
+        respProp.selLang = props.selLang;
+      }
+      console.log(`
+      Right now, trying to get ${dictabbr} ready.
+      The activeDict is ${activeDict}
+      respProps are like this:
+      `)
+      console.log(respProp)
       return (
         <div
           key={`${dictabbr}-${idx0}`}

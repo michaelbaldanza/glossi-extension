@@ -17,12 +17,6 @@ interface FDError {
   resolution: string;
 }
 
-interface FDDefinition {
-  antonyms?: Array<string>;
-  synonyms?: Array<string>;
-  definition: string;
-}
-
 interface FDMeaning {
   antonyms?: Array<string>;
   synonyms?: Array<string>;
@@ -40,14 +34,34 @@ interface WiktMeaning {
   partOfSpeech: string;
 }
 
+interface FDDefinition {
+  antonyms?: Array<string>;
+  synonyms?: Array<string>;
+  definition: string;
+}
+
+interface Definition {
+  antonyms?: Array<string>;
+  synonyms?: Array<string>;
+  definition: string;
+}
+
+interface Meaning {
+  antonyms?: Array<string>;
+  synonyms?: Array<string>;
+  partOfSpeech: string;
+  definitions: Array<Definition>;
+  language?: string;
+}
+
 interface WiktResponse {
   // [key: string]: Array<WiktMeaning>;
-  [key: string]: Array<any>;
+  [key: string]: Array<Meaning>;
 }
 
 interface FDResponse {
   license: object;
-  meanings: Array<FDMeaning>;
+  meanings: Array<Meaning>;
   word: string;
 }
 
@@ -89,4 +103,4 @@ interface Lookup {
   result: Result;
 }
 
-export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FDError, FdInfo, FDMeaning, FDResponse, Lookup, Page, Result, WiktError, WiktInfo, WiktResponse };
+export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FDError, FdInfo, FDMeaning, FDResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };

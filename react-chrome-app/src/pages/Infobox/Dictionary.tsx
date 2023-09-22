@@ -1,11 +1,12 @@
 import Entry from './Entry';
-import type { DictAbbr, DictInfo, FDError, FdInfo, FDMeaning, FDResponse, Lookup, WiktError, WiktInfo, WiktResponse } from '../../services/types';
+import type { DictAbbr, DictInfo, FDError, FdInfo, Meaning, FDResponse, Lookup, WiktError, WiktInfo, WiktResponse } from '../../services/types';
 
 interface DictionaryProps {
   activeDict: DictAbbr;
   quarry: string;
   fdResp?: FDError | FdInfo;
   wiktResp?: WiktError | WiktInfo;
+  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
   setLookupHistory: React.Dispatch<React.SetStateAction<Array<Lookup>>>;
   setLookupIdx: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -13,7 +14,7 @@ interface DictionaryProps {
 function Dictionary(props: DictionaryProps) {
   const { activeDict } = props;
 
-  function mapEntries(entryArr: Array<FDMeaning>, idx0: number, headword?: string) {
+  function mapEntries(entryArr: Array<Meaning>, idx0: number, headword?: string) {
     return entryArr.map((entry, idx1) => {
       const entryId = `${activeDict}${idx0}-entry${idx1}`;
       return (
@@ -24,6 +25,7 @@ function Dictionary(props: DictionaryProps) {
           entry={entry}
           headword={headword}
           quarry={props.quarry}
+          selLang={props.selLang}
         />
       );
     })
@@ -62,11 +64,38 @@ function Dictionary(props: DictionaryProps) {
               <div>{detail}</div>
             </div>
           )
-        } else if (isWiktResponse(wiktResp.response)) {
+        } else if (isWiktResponse(wiktResp.response) && props.selLang) {
+          const [selLang, setSelLang] = props.selLang;
+          const res = wiktResp.response;
+          const languages = Object.keys(res);
+          const languageBar = languages.map((lang, idx) => (
+            <button
+              key={lang + '-' + idx}
+              className={`btn btn-link btn-lang-bar link-secondary toolbar0btn`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                console.log(`trying to setSelLang to ${e.currentTarget.innerText}`)
+                setSelLang(e.currentTarget.innerText);
+              }}
+            >
+              {lang}
+            </button>
+          ));
           return (
-            <div>
-              Wiktionary response!
-            </div>
+            <>
+              <div className="language-bar">
+                {languageBar}
+              </div>
+              {
+                languages.map((lang, idx) => (
+                  <div style={{
+                    'display': (lang === selLang ? 'block' : 'none')
+                    }}>
+                    {mapEntries(res[lang], idx)}
+                  </div>
+                ))
+              }
+            </>
           )
         }
       }

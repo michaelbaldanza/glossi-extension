@@ -9,18 +9,17 @@ interface InfoboxProps {
   lookupHistory: [
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
   ];
+  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
 }
 
 function Infobox(props: InfoboxProps) {
   const [activeDict, setActiveDict] = useState<DictAbbr>('fd');
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
+  const current = lookupHistory[lookupIdx];
   if (lookupHistory.length < 1) {
     return <div>No look ups yet</div>
   }
-  const current = lookupHistory[lookupIdx];
-
-  console.log(current)
 
   return (
     <div className="infobox">
@@ -29,6 +28,7 @@ function Infobox(props: InfoboxProps) {
       <Main
         activeDict={[activeDict, setActiveDict]}
         current={current}
+        selLang={props.selLang}
         setLookupIdx={setLookupIdx}
         setLookupHistory={setLookupHistory}
       />

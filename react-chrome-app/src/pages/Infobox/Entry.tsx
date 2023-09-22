@@ -1,11 +1,13 @@
-import type { DictAbbr, FDMeaning } from '../../services/types';
+import type { DictAbbr, Meaning } from '../../services/types';
+import { breakLines, clipTags, escape } from '../../services/helpers';
 
 interface EntryProps {
   activeDict: DictAbbr;
-  entry: FDMeaning;
+  entry: Meaning;
   entryId: string;
   headword?: string;
   quarry: string;
+  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
 }
 
 function Entry(props: EntryProps) {
@@ -37,10 +39,29 @@ function Entry(props: EntryProps) {
         {
           entry.definitions.map((def, idx2) => {
             const defId = `${props.entryId}-def${idx2}`;
-            return(
-              <li className="definition" id={defId} key={defId}>
-                {def.definition}
-              </li>
+            if (props.selLang) {
+              console.log(`selLang is ${props.selLang}`)
+            }
+            function makeLi(def: string) {
+              return (
+                <li
+                  key={defId}
+                  id={defId}
+                  className="definition"
+                >
+                  {
+                    breakLines(def).map((line, idx3) => (
+                      line.split(/(\s|\/)/g).map((word, idx4) => (
+                        escape(word) ? word : word
+                      ))
+                    ))
+                  }
+                </li>
+              )
+            }
+
+            return (
+              def.definition.length ? makeLi(clipTags(def.definition)) : ''
             );
           })
         }

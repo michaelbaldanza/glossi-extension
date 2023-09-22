@@ -11,7 +11,7 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [lookupHistory, setLookupHistory] = useState<Array<Lookup>>([]);
   const [lookupIdx, setLookupIdx] = useState<number>(0);
-
+  const [selLang, setSelLang] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>('infobox');
 
   function turnPage() {
@@ -21,6 +21,7 @@ function App() {
       'infobox': <Infobox
           lookupIdx={[lookupIdx, setLookupIdx]}
           lookupHistory={[lookupHistory, setLookupHistory]}
+          selLang={[selLang, setSelLang]}
         />,
       'home': <Home />,
       'login': <Login user={[user, setUser]} />,
@@ -41,7 +42,6 @@ function App() {
     });
 
     chrome.runtime.onMessage.addListener(({ name, data }) => {
-      console.log(data);
       /*
         Adapted from Google Chrome's Dictionary side panel example.
         https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/sample.sidepanel-dictionary/sidepanel.js
@@ -51,13 +51,17 @@ function App() {
         const fetchData = async () => {
           try {
             const newLookupHistory = lookupHistory.slice();
-              const newLookup: Lookup = {
-                quarry: lookup,
-                result: await collect(lookup)
-              };
-              newLookupHistory.push(newLookup);
-              setLookupHistory(newLookupHistory);
-              setCurrentPage('infobox')
+            const newLookup: Lookup = {
+              quarry: lookup,
+              result: await collect(lookup)
+            };
+            if (newLookup.result.wikt && !newLookup.result.wikt.response.hasOwnProperty('title')) {
+              setSelLang(newLookup.result.wikt.response.hasOwnProperty('en') ? 'en' : Object.keys(newLookup.result.wikt.response)[0])
+            }
+            newLookupHistory.push(newLookup);
+            
+            setLookupHistory(newLookupHistory);
+            setCurrentPage('infobox')
             // });
           } catch(err) {
             console.error('Error fetching data', err)
