@@ -20,6 +20,10 @@
   font-size: small;
 }
 
+.btn-lang-bar {
+  font-size: smaller;
+}
+
 @media (min-width: 402px) {
   .infobox {
     height: 380px;

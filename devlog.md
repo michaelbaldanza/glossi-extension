@@ -181,3 +181,9 @@ Little bit of a block just now: messing around with getting this to work as a Ch
 This confused me because `data.value` was a `string` when I checked it with `typeof`. In the end, TypeScript just needed assurance that I wasn't going to try to assign `result` an object (or maybe `data.value`, although it passes as a `string`, is read as an object with the signature `{ value: ${MY_VALUE} }`). I silenced the error by assigning `data.value` to a variable with [type annotation](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-annotations-on-variables).
 
     const lookup: string = data.value;
+
+## September 21
+
+### Split dictionary responses in props
+
+Pass props programmatically in `Main.tsx` so that `Dictionary.tsx` doesn't require more complex type guards.
