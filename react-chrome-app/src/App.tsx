@@ -35,6 +35,7 @@ function App() {
   }
 
   useEffect(() => {
+    /* remove chrome.storage calls for troubleshooting in development */
     chrome.storage.local.get(['user']).then((result) => {
       if (result.hasOwnProperty('user')) {
         setUser(result.user);
@@ -75,25 +76,40 @@ function App() {
         fetchData();
       }
     });
-  //   if (lookup.length > 0) {
-  //     const fetchData = async () => {
-  //       try {
-  //         const newLookupHistory = lookupHistory.slice();
-  //         // await collect(lookup).then((result) => {
-  //           const newLookup: Lookup = {
-  //             quarry: lookup,
-  //             result: await collect(lookup)
-  //           };
-  //           newLookupHistory.push(newLookup);
-  //           setLookupHistory(newLookupHistory);
-  //         // });
-  //       } catch(err) {
-  //         console.error('Error fetching data', err)
-  //       }
-  //     }
+  }, [])
+    console.log(lookupHistory)
+
+
+    /* 
+      presetting lookup in development
+    */
+    // if (lookupHistory.length < 1) {
+    //   const lookup = "étoufferais";
+    //   const fetchData = async () => {
+    //     try {
+    //       const newLookupHistory = lookupHistory.slice();
+    //       const newLookup: Lookup = {
+    //         quarry: lookup,
+    //         result: await collect(lookup)
+    //       };
+    //       const wiktRes = newLookup.result.wikt.response;
+    //       if (!wiktRes.hasOwnProperty('title')) {
+    //         setSelLang(wiktRes.hasOwnProperty('en') ? 'en' : Object.keys(wiktRes)[0])
+    //       } else {
+    //         setSelLang(null);
+    //       }
+    //       newLookupHistory.push(newLookup);
+          
+    //       setLookupHistory(newLookupHistory);
+    //       setCurrentPage('infobox')
+    //       // });
+    //     } catch(err) {
+    //       console.error('Error fetching data', err)
+    //     }
+    //   }
   //     fetchData();
   //   }
-  }, [])
+  // }, [])
 
   return (
     <div>

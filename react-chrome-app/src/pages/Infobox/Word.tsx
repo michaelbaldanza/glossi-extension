@@ -1,4 +1,4 @@
-import type { DictAbbr, DictInfo, FDError, FdInfo, Lookup, Meaning, FDResponse, WiktError, WiktInfo, WiktResponse } from '../../services/types';
+import type { DictAbbr, DictInfo, FdError, FdInfo, Lookup, Meaning, FdResponse, WiktError, WiktInfo, WiktResponse } from '../../services/types';
 import { depunctuate, swapMacron } from '../../services/helpers';
 import { collect } from '../../services/dictionaries';
 

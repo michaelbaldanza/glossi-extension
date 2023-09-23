@@ -16,43 +16,24 @@ function Main(props: MainProps) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const current = lookupHistory[lookupIdx];
   const quarry = current.quarry;
-
-  function makeDictionaryPanels() {
-    const refOrder: Array<DictAbbr> = ['wikt', 'fd'];
-    return refOrder.map((dictabbr, idx0) => {
-      const resp = current.result[dictabbr];
-      const key = dictabbr + 'Resp';
-      const respProp: {
-        'wikt'?: WiktInfo,
-        'fd'?: FdInfo,
-        'selLang'?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
-      } = {
-        [key]: resp
-      };
-      if (dictabbr === 'wikt') {
-        respProp.selLang = props.selLang;
-      }
-
-      return (
-        <div
-          key={`${dictabbr}-${idx0}`}
-          id={dictabbr}
-          className={`dictionary-container ${dictabbr === activeDict ? 'd-block' : 'd-none'}`}
-        >
-          <Dictionary
-            {...respProp}
-            activeDict={activeDict}
-            lookupHistory={props.lookupHistory}
-            lookupIdx={props.lookupIdx}
-          />
-        </div>
-      );
-    });
-  }
-
+  const dictProps: {
+    resp: DictInfo,
+    selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>]
+  } = {
+    resp: current.result[activeDict]
+  };
+  if (activeDict === 'wikt') dictProps.selLang = props.selLang;
   return (
-    <div>
-      {makeDictionaryPanels()}
+    <div
+      id={activeDict}
+      className={`dictionary-container`}
+    >
+      <Dictionary
+        {...dictProps}
+        activeDict={activeDict}
+        lookupHistory={props.lookupHistory}
+        lookupIdx={props.lookupIdx}
+      />
     </div>
   );
 }

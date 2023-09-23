@@ -11,7 +11,7 @@ interface WiktError {
   detail: string;
 }
 
-interface FDError {
+interface FdError {
   title: string;
   message: string;
   resolution: string;
@@ -59,7 +59,7 @@ interface WiktResponse {
   [key: string]: Array<Meaning>;
 }
 
-interface FDResponse {
+interface FdResponse {
   license: object;
   meanings: Array<Meaning>;
   word: string;
@@ -71,17 +71,17 @@ interface DictBasics {
 }
 
 interface FdInfo extends DictBasics {
-  response: Array<FDResponse>;
+  response: Array<FdResponse> | FdError;
 }
 
 interface WiktInfo extends DictBasics {
-  response: WiktResponse;
+  response: WiktResponse | WiktError;
 }
 
 interface DictInfo {
   abbr: string;
   name: string;
-  response: Array<FDResponse> | WiktResponse;
+  response: Array<FdResponse> | FdError | WiktResponse | WiktError;
 }
 
 interface Dicts {
@@ -103,4 +103,4 @@ interface Lookup {
   result: Result;
 }
 
-export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FDError, FdInfo, FDMeaning, FDResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };
+export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FdError, FdInfo, FDMeaning, FdResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };

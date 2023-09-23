@@ -17,11 +17,9 @@ function Infobox(props: InfoboxProps) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const current = lookupHistory[lookupIdx];
-  if (lookupHistory.length < 1) {
-    return <div>No look ups yet</div>
-  }
   console.log(lookupHistory)
   return (
+    lookupHistory.length > 0 ?
     <div className="infobox">
       <Header lookup={current.quarry} lookupIdx={props.lookupIdx} />
       <Nav activeDict={[activeDict, setActiveDict]} />
@@ -32,6 +30,7 @@ function Infobox(props: InfoboxProps) {
         lookupHistory={[lookupHistory, setLookupHistory]}
       />
     </div>
+    : <>No look ups yet.</>
   );
 }
 
