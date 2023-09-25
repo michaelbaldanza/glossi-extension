@@ -1,9 +1,15 @@
 type DictAbbr = 'fd' | 'wikt';
 type DictName = 'Free Dictionary' | 'Wiktionary';
-type Page = 'cards' | 'decks' | 'home' | 'infobox' | 'login' | 'logout' | 'profile' | 'signup';
+type Page = 'cards' | 'decks' | 'infobox' | 'login' | 'logout' | 'profile' | 'signup';
 
 type DictAbbrToDictNameMap = {
   [key in DictAbbr]: DictName;
+}
+
+interface LoginError {
+  error?: boolean;
+  status?: number;
+  statusText?: string;
 }
 
 interface WiktError {
@@ -103,4 +109,4 @@ interface Lookup {
   result: Result;
 }
 
-export type { DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FdError, FdInfo, FDMeaning, FdResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };
+export type { LoginError, DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FdError, FdInfo, FDMeaning, FdResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };

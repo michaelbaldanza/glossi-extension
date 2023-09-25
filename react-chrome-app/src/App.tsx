@@ -4,7 +4,6 @@ import Login from './pages/Login';
 import { User } from './services/interfaces';
 import type { Lookup, Page } from './services/types';
 import { collect } from './services/dictionaries';
-import Home from './pages/Home';
 import Infobox from './pages/Infobox/Infobox';
 
 function App() {
@@ -13,18 +12,20 @@ function App() {
   const [lookupIdx, setLookupIdx] = useState<number>(0);
   const [selLang, setSelLang] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>('infobox');
-
+  console.log(currentPage);
   function turnPage() {
     const pages: Record<Page, JSX.Element> = {
       'cards': <div>Cards</div>,
       'decks': <div>Decks</div>,
       'infobox': <Infobox
-          lookupIdx={[lookupIdx, setLookupIdx]}
-          lookupHistory={[lookupHistory, setLookupHistory]}
-          selLang={[selLang, setSelLang]}
+        lookupIdx={[lookupIdx, setLookupIdx]}
+        lookupHistory={[lookupHistory, setLookupHistory]}
+        selLang={[selLang, setSelLang]}
         />,
-      'home': <Home />,
-      'login': <Login user={[user, setUser]} />,
+      'login': <Login
+        currentPage={[currentPage, setCurrentPage]}
+        user={[user, setUser]}
+      />,
       'logout': <div>Log out</div>,
       'profile': <div>Profile</div>,
       'signup': <div>Sign up</div>

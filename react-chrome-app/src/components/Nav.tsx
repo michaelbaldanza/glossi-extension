@@ -49,9 +49,17 @@ function Nav(props: NavProps) {
                   </Anchor>
                 </ListItem>
                 <ListItem isDropItem={true}>
-                  <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'logout'} isDropItem={true}>
-                    Log out
-                  </Anchor>
+                    <button
+                      className="btn btn-link dropdown-item dropdown-link p-0"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setUser(null);
+                        setCurrentPage('infobox');
+                        chrome.storage.local.remove('user');
+                      }}
+                    >
+                      Log out
+                    </button>
                 </ListItem>
               </Dropdown>
               :

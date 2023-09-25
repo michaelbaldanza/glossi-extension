@@ -38,3 +38,11 @@ body {
 .btn-lang-bar {
   font-size: smaller;
 }
+
+.alert {
+  text-align: center;
+}
+
+.dropdown-link {
+  height: 17px;
+}

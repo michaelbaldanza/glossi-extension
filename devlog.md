@@ -188,9 +188,42 @@ This confused me because `data.value` was a `string` when I checked it with `typ
 
 Pass props programmatically in `Main.tsx` so that `Dictionary.tsx` doesn't require more complex type guards.
 
-# September 23
+## September 23
 
 ### Yeah, there was an easier way
 File of "things so simple I can't believe I didn't do it before". `Main.tsx` formerly returned a function that mapped an array of my abbreviation of the API names (`['wikt', 'fd']`), returning two `Dictionary` elements, regardless of which API is active. `Dictionary` was configured to return a lookup of an object with `keys` of the abbreviations. Each key had a function that conditionally returned info depending on whether the `resp` value had a type of `FdResponse`, `WiktResponse`, `FdError`, or `WiktError`. This requried, or possibly I didn't know enough to implement a more efficient configuration, conditionally rendering each of those four possibilities. To satisfy `TypeScript` that no outcome in which a function was called that returned nothing, I had added a default return at the end of each anonymous function value of a `TSX fragment` (`<>Something went wrong</>`). Since `Dictionary` was mapped from an array with two values, only one mapping of which would cause a prop to be passed, the text 'Something went wrong' displayed below response info from the active API.  I swept this problem under the rug by giving the inactive `dictionary` container in `Main` the style property `display: none;` (or, in Bootstrap, adding the class `.d-none`) when the mapped string didn't equal `activeDict`.
 
 To make it so much easier: `Main` passes a look up of `activeDict` in `lookupHistory[lookupIdx]`; this way only one `Dictionary` component is ever returned. Then, instead of looking up `activeDict`, I have an `if ... else if` chain that [narrows](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#working-with-union-types) the `resp` prop, setting the value the variable `content` as the condition necessitates, closed by an `else` that sets it to the 'Something went wrong' fragment in case *something goes wrong*. There was also some inconsistency in the typing that caused `TypeScript` to error out when thrown an error response by either API. I fixed that. Now the error response renders onscreen.
+
+## September 25
+### Back to basics (HTML, CSS, React TypeScript)
+#### Passing a React prop that contains current state and the corresponding `setState` action
+Probably declare an `interface`. If you are passing your state and `setState` action together, use a single prop specified by a tuple.
+
+    interface MyComponentProps {
+      foo: [Array<Foo>, React.Dispatch<React.SetStateAction<Array<Foo>>>];
+    }
+
+* The tuple has two elements. The first element of type `Array<Foo>`, meaning it's an array of objects conforming to the `Foo` interface.
+* The second element is of type `React.Dispatch`. This is a function type provided by the React library. It represents a function that can dispatch an action to update state.
+* `<React.SetStateAction<Foo>>` is a type parameter for `React.Dispatch`. It specifies the type of action that the dispatch function can accept.
+
+### Setting up an `onChange` function
+1. Set up `text` state using the `useState` hook, passing `string` as its type annotation.
+
+        const [text, setText] = useState<string>('');
+
+1. Add a type annotation to the `onChange` function. Use the `ChangeEvent` type provided by React, and supply the type parameter `HTMLInputElement`.
+
+        function (e: React.ChangeEvent<HTMLInputElement>) {
+          ...
+
+1. Add an `input` element. Give it a `type` attribute with the value of `"text"`, an `onChange` attribute with the value of `handleChange`, and `value` attribute with the value of `text`.
+
+        <input
+          type="text"
+          onChange={handleChange}
+          value={text}
+        />
+
+      *Note: Use the `placeholder` attribute to add display text that won't be read a `value`.*

@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { DictAbbr, Lookup } from '../../services/types';
+import { DictAbbr, Lookup, Page } from '../../services/types';
 import Header from './Header';
 import Main from './Main';
 import Nav from './Nav';
+import TextInput from './TextInput';
 
 interface InfoboxProps {
   lookupHistory: [
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
   ];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
-  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  selLang: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
 }
 
 function Infobox(props: InfoboxProps) {
@@ -30,7 +31,11 @@ function Infobox(props: InfoboxProps) {
         lookupHistory={[lookupHistory, setLookupHistory]}
       />
     </div>
-    : <>No look ups yet.</>
+    :
+    <TextInput
+      lookupHistory={[lookupHistory, setLookupHistory]}
+      selLang={props.selLang}
+    />
   );
 }
 
