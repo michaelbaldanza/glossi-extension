@@ -250,3 +250,7 @@ If you pass `2` and `4` as arguments, `slice` creates a copy of the array starti
         // Expected output: Array ["camel", "duck"]
 
 Key word above: **ending *at***. The item at index four (`'elephant'`) is excluded. The output ends *with* the item at index three, `'duck'`.
+
+#### Making sure that state updates in`useEffect`
+
+While tinkering with the different modes of looking up words on the extension (searching in the text input, clicking words in a dictionary entry, and right-clicking on webpage text), I found that that last option caused a full reset of `lookupHistory` state. My best guess for why this happened is that `lookupHistory`...

@@ -30,8 +30,9 @@ function Word(props: WordProps) {
     if (!wiktRes.hasOwnProperty('')) {
 
     }
-    setLookupHistory([...lookupHistory.slice(0, lookupIdx + 1), newLookup]);
-    setLookupIdx(lookupIdx + 1);
+    const newLookupHistory = [...lookupHistory.slice(0, lookupIdx + 1), newLookup];
+    setLookupHistory(newLookupHistory);
+    setLookupIdx(newLookupHistory.length - 1);
   }
 
   return (

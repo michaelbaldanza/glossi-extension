@@ -45,9 +45,6 @@ function Entry(props: EntryProps) {
         {
           entry.definitions.map((def, idx2) => {
             const defId = `${props.entryId}-def${idx2}`;
-            if (props.selLang) {
-              console.log(`selLang is ${props.selLang}`)
-            }
             function makeLi(def: string) {
               return (
                 <li

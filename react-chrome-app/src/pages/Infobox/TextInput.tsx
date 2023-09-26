@@ -23,7 +23,6 @@ function TextInput(props: TextInputProps) {
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const fetchData = async () => {
       try {
-        const newLookupHistory = lookupHistory.slice(0, lookupIdx);
         const newLookup: Lookup = {
           quarry: search,
           result: await collect(search)
@@ -36,9 +35,10 @@ function TextInput(props: TextInputProps) {
         } else {
           setSelLang(null);
         }
-        newLookupHistory.push(newLookup);
+        const newLookupHistory = [...lookupHistory.slice(0, lookupIdx + 1), newLookup];
         setLookupHistory(newLookupHistory);
         setIsActive(!isActive);
+        setLookupIdx(newLookupHistory.length - 1);
       } catch (err) {
         console.error('Error fetching data', err);
       }

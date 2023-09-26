@@ -19,7 +19,6 @@ function Infobox(props: InfoboxProps) {
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const [textInputIsActive, setTextInputIsActive] = useState<boolean>(false);
   const current = lookupHistory[lookupIdx];
-  console.log(lookupHistory)
   return (
     lookupHistory.length > 0 ?
     <div className="infobox">

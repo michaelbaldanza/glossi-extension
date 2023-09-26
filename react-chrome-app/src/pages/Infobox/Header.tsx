@@ -14,6 +14,9 @@ function Header(props: HeaderProps) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const [textInputIsActive, setTextInputIsActive] = props.textInputIsActive;
+  // console.log(`logging in InfoboxHeader`)
+  // console.log(`lookupHistory.length is ${lookupHistory.length}, lookupIdx is ${lookupIdx}`)
+
   const current = lookupHistory[lookupIdx];
   const quarry = current.quarry;
 
