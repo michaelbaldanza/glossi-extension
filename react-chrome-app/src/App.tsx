@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef,useState } from 'react';
 import Nav from './components/Nav';
 import Login from './pages/Login';
 import { User } from './services/interfaces';
@@ -13,6 +13,7 @@ function App() {
   const [selLang, setSelLang] = useState<string | null>(null);
   const [browserWord, setBrowserWord] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<Page>('infobox');
+  const fetchDataRef = useRef<((lookup: string) => Promise<void>) | null> (null);
   console.log(`at App level lookupHistory.length is ${lookupHistory.length}, lookupIdx is ${lookupIdx}, and lookupHistory looks like this`)
   console.log(lookupHistory)
   function turnPage() {
@@ -38,10 +39,19 @@ function App() {
   }
 
   useEffect(() => {
+
+
     /* remove chrome.storage calls for troubleshooting in development */
     console.log(`RUNNING useEFFECT`)
     console.log(`at useEffect level lookupHistory.length is ${lookupHistory.length}, lookupIdx is ${lookupIdx}, and lookupHistory looks like this`)
     console.log(lookupHistory)
+    // fetchDataRef.current = async (lookup) => {
+
+    // }
+
+    let prevLookup: string = '';
+    
+
     if (!user) {
       chrome.storage.local.get(['user']).then((result) => {
         if (result.hasOwnProperty('user')) {
@@ -50,50 +60,44 @@ function App() {
       });
     }
 
+    fetchDataRef.current = async (lookup) => {
+      try {
+        if (prevLookup !== lookup) { 
+          prevLookup = lookup;
+          const newLookup: Lookup = {
+            quarry: lookup,
+            result: await collect(lookup)
+          };
+          const wiktRes = newLookup.result.wikt.response;
+          if (!wiktRes.hasOwnProperty('title')) {
+            setSelLang(wiktRes.hasOwnProperty('en') ? 'en' : Object.keys(wiktRes)[0])
+          } else {
+            setSelLang(null);
+          }
+          setLookupHistory((prevLookupHistory) => {
+            let newIdx: number = prevLookupHistory.length === 0 ? 0 : lookupIdx + 1;
+            setLookupIdx(() => newIdx);
+            return [...prevLookupHistory.slice(0, newIdx), newLookup];
+          });
+          setCurrentPage(() => 'infobox');
+        }
+      } catch(err) {
+        console.error('Error fetching data', err)
+      }
+    }
+
     chrome.runtime.onMessage.addListener(({ name, data }) => {
       /*
         Adapted from Google Chrome's Dictionary side panel example.
         https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/sample.sidepanel-dictionary/sidepanel.js
       */
       const lookup: string = data.value;
-      if (name === 'glossi-define') {
-        const fetchData = async () => {
-          console.log(`HITTING fetchDATA`)
-          console.log(`The lookup is ${lookup.toUpperCase()}`)
-          try {
-            const newLookup: Lookup = {
-              quarry: lookup,
-              result: await collect(lookup)
-            };
-            const wiktRes = newLookup.result.wikt.response;
-            if (!wiktRes.hasOwnProperty('title')) {
-              setSelLang(wiktRes.hasOwnProperty('en') ? 'en' : Object.keys(wiktRes)[0])
-            } else {
-              setSelLang(null);
-            }
-            // console.log(` in useEffect fetchData, lookupIdx is ${lookupIdx}, and lookupHistory.length is ${lookupHistory.length}`)
-            // console.log(`going to try to make lookupHistory look like this`);
-            // console.log([...lookupHistory.slice(0, lookupIdx + 1), newLookup]);
-            const newLookupHistory = [...lookupHistory.slice(0, lookupIdx + 1), newLookup];
-            const newLookupIdx = newLookupHistory.length - 1;
-            // console.log(`apparently the last item in the array is at idx ${newLookupIdx}`)
-            // console.log(newLookupHistory[newLookupIdx]);
-            setLookupHistory(newLookupHistory);
-            setLookupIdx(newLookupHistory.length - 1);
-            setCurrentPage('infobox')
-            // });
-          } catch(err) {
-            console.error('Error fetching data', err)
-          }
-          console.log(`EXITING fetchDATA`)
-        }
-        fetchData();
+      if (name === 'glossi-define' && fetchDataRef.current) {
+        fetchDataRef.current(lookup);
       }
     });
     console.log('leaving useEffect')
-  }, [lookupHistory, lookupIdx, currentPage, selLang])
-    
-
+  }, [lookupIdx])
 
     /* 
       presetting lookup in development
