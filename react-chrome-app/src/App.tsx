@@ -48,8 +48,6 @@ function App() {
         Adapted from Google Chrome's Dictionary side panel example.
         https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/sample.sidepanel-dictionary/sidepanel.js
       */
-      console.log('check if user state has been set in chrome.runtime')
-      console.log(user);
       const lookup: string = data.value;
       if (name === 'glossi-define') {
         const fetchData = async () => {

@@ -227,3 +227,26 @@ Probably declare an `interface`. If you are passing your state and `setState` ac
         />
 
       *Note: Use the `placeholder` attribute to add display text that won't be read a `value`.*
+
+#### `Array.prototype.slice()`: inclusive or exclusive?
+`slice()` can take two arguments. If no argument is passed, a copy is made of the entire array.
+
+The first argument is the index slice should `start` from. This argument is *inclusive*.
+
+The second argument is the index slice should `end` from. This argument is *exclusive*.
+
+Take the canonical, an array `animals`.
+
+        const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+
+If you pass `2`, `slice` creates a copy of the array starting with the item at index two.
+
+        console.log(animals.slice(2));
+        // Expected output: Array ["camel", "duck", "elephant"]
+
+If you pass `2` and `4` as arguments, `slice` creates a copy of the array starting with the item at index two and ending at the item at index four.
+
+        console.log(animals.slice(2, 4));
+        // Expected output: Array ["camel", "duck"]
+
+Key word above: **ending *at***. The item at index four (`'elephant'`) is excluded. The output ends *with* the item at index three, `'duck'`.

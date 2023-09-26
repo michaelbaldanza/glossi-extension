@@ -23,6 +23,10 @@
   cursor: pointer;
 }
 
+.infobox-text-input {
+  width: 50%;
+}
+
 @media (min-width: 402px) {
   .infobox {
     height: 380px;

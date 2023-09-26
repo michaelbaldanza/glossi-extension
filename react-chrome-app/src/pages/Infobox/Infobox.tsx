@@ -17,23 +17,31 @@ function Infobox(props: InfoboxProps) {
   const [activeDict, setActiveDict] = useState<DictAbbr>('fd');
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
+  const [textInputIsActive, setTextInputIsActive] = useState<boolean>(false);
   const current = lookupHistory[lookupIdx];
   console.log(lookupHistory)
   return (
     lookupHistory.length > 0 ?
     <div className="infobox">
-      <Header lookup={current.quarry} lookupIdx={props.lookupIdx} />
+      <Header
+        lookupHistory={props.lookupHistory}
+        lookupIdx={props.lookupIdx}
+        selLang={props.selLang}
+        textInputIsActive={[textInputIsActive, setTextInputIsActive]}
+      />
       <Nav activeDict={[activeDict, setActiveDict]} />
       <Main
         activeDict={[activeDict, setActiveDict]}
         selLang={props.selLang}
-        lookupIdx={[lookupIdx, setLookupIdx]}
-        lookupHistory={[lookupHistory, setLookupHistory]}
+        lookupIdx={props.lookupIdx}
+        lookupHistory={props.lookupHistory}
       />
     </div>
     :
     <TextInput
-      lookupHistory={[lookupHistory, setLookupHistory]}
+      isActive={[textInputIsActive, setTextInputIsActive]}
+      lookupHistory={props.lookupHistory}
+      lookupIdx={props.lookupIdx}
       selLang={props.selLang}
     />
   );
