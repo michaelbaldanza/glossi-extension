@@ -9,11 +9,12 @@ import Infobox from './pages/Infobox/Infobox';
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [lookupHistory, setLookupHistory] = useState<Array<Lookup>>([]);
+  const [textInputIsActive, setTextInputIsActive] = useState<boolean>(false);
   const [lookupIdx, setLookupIdx] = useState<number>(0);
   const [selLang, setSelLang] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>('infobox');
   const fetchDataRef = useRef<((lookup: string) => Promise<void>) | null> (null);
-
+  console.log(`textInput is ${textInputIsActive ? 'active' : 'inactive'}`)
   function turnPage() {
     const pages: Record<Page, JSX.Element> = {
       'cards': <div>Cards</div>,
@@ -22,6 +23,7 @@ function App() {
         lookupIdx={[lookupIdx, setLookupIdx]}
         lookupHistory={[lookupHistory, setLookupHistory]}
         selLang={[selLang, setSelLang]}
+        textInputIsActive={[textInputIsActive, setTextInputIsActive]}
         />,
       'login': <Login
         currentPage={[currentPage, setCurrentPage]}
@@ -111,6 +113,7 @@ function App() {
             return [...prevLookupHistory.slice(0, newIdx), newLookup];
           });
           setCurrentPage(() => 'infobox');
+          setTextInputIsActive(false);
         }
       } catch(err) {
         console.error('Error fetching data', err)

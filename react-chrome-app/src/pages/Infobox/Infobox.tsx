@@ -11,14 +11,13 @@ interface InfoboxProps {
   ];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   selLang: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  textInputIsActive: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 }
 
 function Infobox(props: InfoboxProps) {
   const [activeDict, setActiveDict] = useState<DictAbbr>('fd');
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
-  const [textInputIsActive, setTextInputIsActive] = useState<boolean>(
-    lookupHistory.length < 1 ? true : false
-  );
+  const [textInputIsActive, setTextInputIsActive] = props.textInputIsActive;
   
   return (
     lookupHistory.length > 0 ?

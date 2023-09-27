@@ -39,7 +39,7 @@ function TextInput(props: TextInputProps) {
         }
         const newLookupHistory = [...lookupHistory.slice(0, lookupIdx + 1), newLookup];
         setLookupHistory(newLookupHistory);
-        setIsActive(!isActive);
+        setIsActive(false);
         setLookupIdx(newLookupHistory.length - 1);
       } catch (err) {
         console.error('Error fetching data', err);
