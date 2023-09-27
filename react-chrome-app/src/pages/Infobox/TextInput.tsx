@@ -15,6 +15,8 @@ function TextInput(props: TextInputProps) {
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const [selLang, setSelLang] = props.selLang;
   const [search, setSearch] = useState<string>('');
+  console.log(`TextInput is ${isActive ? 'active' : 'inactive'}
+  lookupHistory.length is ${lookupHistory.length}`)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.currentTarget.value);

@@ -35,6 +35,10 @@ body {
   opacity: 50%;
 }
 
+.unclickable {
+  cursor: auto !important;
+}
+
 .btn-lang-bar {
   font-size: smaller;
 }

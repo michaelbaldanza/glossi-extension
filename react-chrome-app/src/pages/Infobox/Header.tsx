@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import HeaderArrow from './HeaderArrow';
 import TextInput from './TextInput';
 import TextInputToggler from './TextInputToggler';
 import type { Lookup } from '../../services/types';
@@ -21,8 +22,8 @@ function Header(props: HeaderProps) {
   const quarry = current.quarry;
 
   return (
-    <div className="action-heading d-flex">
-      <div className="quarry-and-input-container">
+    <div className="action-heading d-flex justify-content-between">
+      <div className="quarry-and-input-container d-flex">
         {
           !textInputIsActive ?
             <h5>{quarry}</h5>
@@ -36,8 +37,17 @@ function Header(props: HeaderProps) {
         }
         <TextInputToggler isActive={[textInputIsActive, setTextInputIsActive]} />
       </div>
-      <div className="history navigation">
-
+      <div className="lookup-nav--arrow-container">
+        <HeaderArrow
+          lookupHistory={props.lookupHistory}
+          lookupIdx={props.lookupIdx}
+          val={-1}
+        />
+        <HeaderArrow
+          lookupHistory={props.lookupHistory}
+          lookupIdx={props.lookupIdx}
+          val={1}
+        />
       </div>
     </div>
   );

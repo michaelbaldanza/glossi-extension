@@ -16,9 +16,10 @@ interface InfoboxProps {
 function Infobox(props: InfoboxProps) {
   const [activeDict, setActiveDict] = useState<DictAbbr>('fd');
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
-  const [lookupIdx, setLookupIdx] = props.lookupIdx;
-  const [textInputIsActive, setTextInputIsActive] = useState<boolean>(false);
-  const current = lookupHistory[lookupIdx];
+  const [textInputIsActive, setTextInputIsActive] = useState<boolean>(
+    lookupHistory.length < 1 ? true : false
+  );
+  
   return (
     lookupHistory.length > 0 ?
     <div className="infobox">
