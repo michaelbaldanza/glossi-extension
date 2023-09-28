@@ -1,6 +1,7 @@
 import { useEffect, useRef,useState } from 'react';
 import Nav from './components/Nav';
 import Login from './pages/Login';
+import NewCard from './pages/NewCard/NewCard';
 import { User } from './services/interfaces';
 import type { Lookup, Page } from './services/types';
 import { collect } from './services/dictionaries';
@@ -30,6 +31,9 @@ function App() {
         user={[user, setUser]}
       />,
       'logout': <div>Log out</div>,
+      'new-card': <NewCard
+        currentPage={[currentPage, setCurrentPage]}
+      />,
       'profile': <div>Profile</div>,
       'signup': <div>Sign up</div>
     };

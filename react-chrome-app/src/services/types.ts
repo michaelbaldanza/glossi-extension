@@ -1,6 +1,6 @@
 type DictAbbr = 'fd' | 'wikt';
 type DictName = 'Free Dictionary' | 'Wiktionary';
-type Page = 'cards' | 'decks' | 'infobox' | 'login' | 'logout' | 'profile' | 'signup';
+type Page = 'cards' | 'decks' | 'infobox' | 'login' | 'logout' | 'new-card' | 'profile' | 'signup';
 
 type DictAbbrToDictNameMap = {
   [key in DictAbbr]: DictName;

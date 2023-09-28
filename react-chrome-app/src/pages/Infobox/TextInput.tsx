@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import useComponentVisible from '../../components/useComponentVisible';
 import type { Lookup } from '../../services/types';
 import { collect } from '../../services/dictionaries';
 
 interface TextInputProps {
+  initialValue?: string;
   isActive: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
   lookupHistory: [Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
@@ -11,10 +13,12 @@ interface TextInputProps {
 
 function TextInput(props: TextInputProps) {
   const [isActive, setIsActive] = props.isActive;
+  const { ref, isComponentVisible } = useComponentVisible(props.isActive);
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const [selLang, setSelLang] = props.selLang;
-  const [search, setSearch] = useState<string>('');
+  const initialValue = props.initialValue;
+  const [search, setSearch] = useState<string>(initialValue ?? '');
   console.log(`TextInput is ${isActive ? 'active' : 'inactive'}
   lookupHistory.length is ${lookupHistory.length}`)
 
@@ -47,7 +51,9 @@ function TextInput(props: TextInputProps) {
     }
 
     if (e.key === 'Enter') {
-      fetchData();
+      search === initialValue ? setIsActive(false) : fetchData();
+    } else if (e.key === 'Tab') {
+      setIsActive(false);
     }
   }
 
@@ -55,9 +61,10 @@ function TextInput(props: TextInputProps) {
     <input
       className="form-control infobox-text-input"
       type="text"
-      placeholder="Search"
+      placeholder={initialValue ?? 'Search'}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
+      ref={ref}
       value={search}
       autoFocus
     />

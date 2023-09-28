@@ -253,4 +253,44 @@ Key word above: **ending *at***. The item at index four (`'elephant'`) is exclud
 
 #### Making sure that state updates in`useEffect`
 
-While tinkering with the different modes of looking up words on the extension (searching in the text input, clicking words in a dictionary entry, and right-clicking on webpage text), I found that that last option caused a full reset of `lookupHistory` state. My best guess for why this happened is that `lookupHistory`...
+While tinkering with the different modes of looking up words on the extension (searching in the text input, clicking words in a dictionary entry, and right-clicking on webpage text), I found that that last option caused a full reset of `lookupHistory` state. I tried to solve this by adding `lookupHistory` to the dependencies array, but this created weirder behaviour; `useEffect` was being called many times. I *think* `useEffect` is called anew every time it modifies state within itself. Then, because of how the function is set up, `fetchData` gets called each time. This seems like a waste of resources, and also causes duplicate items in `lookupHistory` and other confusing issues. What to do about it?
+
+##### Skeleton `useEffect` with message passing capability
+I want to take a moment to lay some groundwork.
+
+1. React's `useEffect` method.
+
+        useEffect(() => {
+
+          // it's all happening here...
+
+        }, [])
+
+    Earlier in development, this seemed like the best choice to load stuff with `async`/`await`. `then` might make this unnecessary, but it seems handy to keep it around now as a kind of staging area.
+
+1. The `chrome` API
+
+        // remembering a logged in account by checking for a `'user'` in `chrome.storage.local`
+        if (!user) {
+          chrome.storage.local.get(['user']).then((result) => {
+            if (result.hasOwnProperty('user)) {
+              setUser(result.user);
+            }
+          });
+        }
+
+        chrome.runtime.onMessage.addListener(({ name, data }) => {
+          
+          // Right-clicking on a word in a webpage and selecting
+          // "Look up on Glossi" from the context menu sends the word
+          // over here. Its value can be read on `data.value`. 
+
+        })
+
+### September 27
+
+Finish implementing navigation. 
+
+### September 28
+
+Add `useComponentVisible` component function. Remove `TextInputTogglerButton`. Instead, open `TextInput` by clicking on the heading, and close it by tabbing out or clicking outside of the input (but inside of the extension document).

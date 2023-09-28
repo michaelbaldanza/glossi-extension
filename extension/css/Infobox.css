@@ -23,13 +23,9 @@
   cursor: pointer;
 }
 
-.infobox-text-input {
+/* .infobox-text-input {
   width: 50%;
-}
-
-.text-input-toggler {
-  margin: 0 0.25em;
-}
+} */
 
 @media (min-width: 402px) {
   .infobox {

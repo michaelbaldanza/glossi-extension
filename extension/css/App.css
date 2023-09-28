@@ -50,3 +50,7 @@ body {
 .dropdown-link {
   height: 17px;
 }
+
+.clickable {
+  cursor: pointer;
+}

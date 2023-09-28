@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import HeaderArrow from './HeaderArrow';
 import TextInput from './TextInput';
-import TextInputToggler from './TextInputToggler';
 import type { Lookup } from '../../services/types';
 
 interface HeaderProps {
@@ -15,29 +13,35 @@ function Header(props: HeaderProps) {
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
   const [lookupIdx, setLookupIdx] = props.lookupIdx;
   const [textInputIsActive, setTextInputIsActive] = props.textInputIsActive;
-  // console.log(`logging in InfoboxHeader`)
-  // console.log(`lookupHistory.length is ${lookupHistory.length}, lookupIdx is ${lookupIdx}`)
-
   const current = lookupHistory[lookupIdx];
   const quarry = current.quarry;
 
   return (
-    <div className="action-heading d-flex justify-content-between">
-      <div className="quarry-and-input-container d-flex">
-        {
-          !textInputIsActive ?
-            <h5>{quarry}</h5>
-          :
-            <TextInput
-              lookupHistory={props.lookupHistory}
-              lookupIdx={props.lookupIdx}
-              selLang={props.selLang}
-              isActive={props.textInputIsActive}
-            />
-        }
-        <TextInputToggler isActive={[textInputIsActive, setTextInputIsActive]} />
+    <div className="action-heading d-flex align-items-center">
+      <div className="flex-grow-1">
+      { 
+        !textInputIsActive ?
+          <h5
+            className="clickable"
+            title="Modify lookup"
+            onClick={(e) => {
+              e.stopPropagation();
+              setTextInputIsActive(true);
+            }}
+          >
+            {quarry}
+          </h5>
+        :
+          <TextInput
+            lookupHistory={props.lookupHistory}
+            lookupIdx={props.lookupIdx}
+            selLang={props.selLang}
+            isActive={props.textInputIsActive}
+            initialValue={quarry}
+          />
+      }
       </div>
-      <div className="lookup-nav--arrow-container">
+      <div className="lookup-nav-arrow-container">
         <HeaderArrow
           lookupHistory={props.lookupHistory}
           lookupIdx={props.lookupIdx}
