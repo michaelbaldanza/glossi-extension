@@ -5,11 +5,13 @@ import { User } from '../services/interfaces';
 import { type DictAbbr, type Page } from '../services/types';
 
 interface NavProps {
+  anyLookup: boolean;
   currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
   user: [User | null, React.Dispatch<React.SetStateAction<User | null>>];
 }
 
 function Nav(props: NavProps) {
+  const anyLookup = props.anyLookup;
   const [user, setUser] = props.user;
   const [currentPage, setCurrentPage] = props.currentPage;
 
@@ -29,11 +31,16 @@ function Nav(props: NavProps) {
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <ListItem>
-              <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'infobox'}>
-                Look up
-              </Anchor>
-            </ListItem>
+            {
+              anyLookup ?
+                <ListItem>
+                  <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'infobox'}>
+                    Look up
+                  </Anchor>
+                </ListItem>
+              :
+                ''
+            }
             <ListItem>
               <Anchor currentPage={[currentPage, setCurrentPage]}  linkedPage={'decks'}>Decks</Anchor>
             </ListItem>

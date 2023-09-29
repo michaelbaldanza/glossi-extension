@@ -1,12 +1,17 @@
 import Word from './Word';
-import type { DictAbbr, Lookup, Meaning } from '../../services/types';
+import EntryHeading from './EntryHeading';
+import NymContainer from './NymContainer';
+import type { CardDraft, DictAbbr, Lookup, Meaning, Page } from '../../services/types';
 import { breakLines, clipTags, escape } from '../../services/helpers';
 
 interface EntryProps {
   activeDict: DictAbbr;
+  cardDraft: [CardDraft | null, React.Dispatch<React.SetStateAction<CardDraft | null>>];
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
   entry: Meaning;
   entryId: string;
   headword?: string;
+  isLogged: boolean;
   lookupHistory: [
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
   ];
@@ -27,20 +32,16 @@ function Entry(props: EntryProps) {
       className={`entry-container`}
       id={entryId}
     >
-      {
-        props.headword && props.headword !== quarry.toLowerCase() ?
-        <h6>{props.headword}</h6>
-        :
-        ''
-      }
-      {
-        entry.partOfSpeech ?
-        <div className="part-of-speech-container">
-          <h6 className="part-of-speech-heading faded">{entry.partOfSpeech.toLowerCase()}</h6>
-        </div>
-        :
-        ''
-      }
+      <EntryHeading
+        cardDraft={props.cardDraft}
+        currentPage={props.currentPage}
+        entry={props.entry}
+        headword={props.headword}
+        isLogged={props.isLogged}
+        quarry={quarry}
+        selLang={props.selLang ? props.selLang[0] : null} // assign only the
+        // languageCode to selLang.
+      />
       <ol className="def-list">
         {
           entry.definitions.map((def, idx2) => {
@@ -77,6 +78,26 @@ function Entry(props: EntryProps) {
           })
         }
       </ol>
+        {
+          entry.synonyms && entry.synonyms.length > 0 ?
+            <NymContainer
+              lookupHistory={props.lookupHistory}
+              lookupIdx={props.lookupIdx}
+              nymType={'synonyms'}
+              nyms={entry.synonyms}
+            />
+          : ''
+        }
+        {
+          entry.antonyms && entry.antonyms.length > 0 ?
+            <NymContainer
+              lookupHistory={props.lookupHistory}
+              lookupIdx={props.lookupIdx}
+              nymType={'antonyms'}
+              nyms={entry.antonyms}
+            />
+          : ''
+        }
     </div>
   );
 }

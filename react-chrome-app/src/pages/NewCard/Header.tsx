@@ -1,7 +1,7 @@
 import type { Page } from '../../services/types';
 
 interface HeaderProps {
-  currentPage: [string, React.Dispatch<React.SetStateAction<Page>>];
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
 }
 
 function Header(props: HeaderProps) {

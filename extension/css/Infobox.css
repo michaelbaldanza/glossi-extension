@@ -3,7 +3,7 @@
   border-bottom: 1px rgba(211, 211, 211, 1) solid;
 }
 
-.infobox .btn {
+.infobox .btn, .infobox ol {
   padding: 0;
 }
 
@@ -11,7 +11,7 @@
   margin: 0;
 }
 
-.part-of-speech-heading, .infobox, .btn-dict-bar {
+.part-of-speech-heading, .infobox, .antonym-container h6, .synonym-container h6, .btn-dict-bar {
   font-size: small;
 }
 

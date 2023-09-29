@@ -1,6 +1,6 @@
 type DictAbbr = 'fd' | 'wikt';
 type DictName = 'Free Dictionary' | 'Wiktionary';
-type Page = 'cards' | 'decks' | 'infobox' | 'login' | 'logout' | 'new-card' | 'profile' | 'signup';
+type Page = 'cards' | 'decks' | 'home' | 'infobox' | 'login' | 'logout' | 'new-card' | 'profile' | 'signup';
 
 type DictAbbrToDictNameMap = {
   [key in DictAbbr]: DictName;
@@ -30,16 +30,6 @@ interface FDMeaning {
   definitions: Array<FDDefinition>;
 }
 
-interface WiktDefinition {
-  definition: string;
-}
-
-interface WiktMeaning {
-  definitions: Array<WiktDefinition>;
-  language: string;
-  partOfSpeech: string;
-}
-
 interface FDDefinition {
   antonyms?: Array<string>;
   synonyms?: Array<string>;
@@ -58,6 +48,11 @@ interface Meaning {
   partOfSpeech: string;
   definitions: Array<Definition>;
   language?: string;
+}
+
+interface CardDraft extends Meaning {
+  headword: string;
+  languageCode?: string;
 }
 
 interface WiktResponse {
@@ -109,4 +104,4 @@ interface Lookup {
   result: Result;
 }
 
-export type { LoginError, DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FdError, FdInfo, FDMeaning, FdResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };
+export type { LoginError, CardDraft, DictAbbr, DictAbbrToDictNameMap, DictInfo, DictName, FdError, FdInfo, FDMeaning, FdResponse, Lookup, Meaning, Page, Result, WiktError, WiktInfo, WiktResponse };

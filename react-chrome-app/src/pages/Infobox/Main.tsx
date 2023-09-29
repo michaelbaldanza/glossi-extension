@@ -1,13 +1,18 @@
-import type { DictAbbr, DictInfo, FdInfo, Lookup, Result, WiktInfo } from '../../services/types';
+import type { User } from '../../services/interfaces';
+import type { CardDraft, DictAbbr, DictInfo, FdInfo, Lookup, Page, Result, WiktInfo } from '../../services/types';
 import Dictionary from './Dictionary';
 
 interface MainProps {
   activeDict: [DictAbbr, React.Dispatch<React.SetStateAction<DictAbbr>>];
-  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  cardDraft:[CardDraft | null, React.Dispatch<React.SetStateAction<CardDraft | null>>];
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
+  isLogged: boolean;
   lookupHistory:[
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
   ];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
+  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  user: [User | null, React.Dispatch<React.SetStateAction<User | null>>];
 }
 
 function Main(props: MainProps) {
@@ -31,6 +36,9 @@ function Main(props: MainProps) {
       <Dictionary
         {...dictProps}
         activeDict={activeDict}
+        cardDraft={props.cardDraft}
+        currentPage={props.currentPage}
+        isLogged={props.isLogged}
         lookupHistory={props.lookupHistory}
         lookupIdx={props.lookupIdx}
       />

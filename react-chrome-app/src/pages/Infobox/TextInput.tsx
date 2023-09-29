@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import useComponentVisible from '../../components/useComponentVisible';
-import type { Lookup } from '../../services/types';
+import type { Lookup, Page } from '../../services/types';
 import { collect } from '../../services/dictionaries';
 
 interface TextInputProps {
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
   initialValue?: string;
   isActive: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
   lookupHistory: [Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>];
@@ -12,6 +13,11 @@ interface TextInputProps {
 }
 
 function TextInput(props: TextInputProps) {
+  /* A note on isActive
+    This state might change between true and false, but its value is only
+    relevant when `currentPage` is `'infobox'`.
+  */
+  const [currentPage, setCurrentPage] = props.currentPage;
   const [isActive, setIsActive] = props.isActive;
   const { ref, isComponentVisible } = useComponentVisible(props.isActive);
   const [lookupHistory, setLookupHistory] = props.lookupHistory;
@@ -45,6 +51,7 @@ function TextInput(props: TextInputProps) {
         setLookupHistory(newLookupHistory);
         setIsActive(false);
         setLookupIdx(newLookupHistory.length - 1);
+        setCurrentPage('infobox');
       } catch (err) {
         console.error('Error fetching data', err);
       }

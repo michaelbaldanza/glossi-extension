@@ -1,8 +1,9 @@
 import HeaderArrow from './HeaderArrow';
 import TextInput from './TextInput';
-import type { Lookup } from '../../services/types';
+import type { Lookup, Page } from '../../services/types';
 
 interface HeaderProps {
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
   lookupHistory: [Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
   selLang: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
@@ -33,6 +34,7 @@ function Header(props: HeaderProps) {
           </h5>
         :
           <TextInput
+            currentPage={props.currentPage}
             lookupHistory={props.lookupHistory}
             lookupIdx={props.lookupIdx}
             selLang={props.selLang}

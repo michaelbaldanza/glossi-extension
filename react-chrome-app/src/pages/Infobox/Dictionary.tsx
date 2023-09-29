@@ -1,15 +1,18 @@
 import Entry from './Entry';
 import NavButton  from './NavButton';
-import type { DictAbbr, DictInfo, FdError, FdInfo, Lookup, Meaning, FdResponse, WiktError, WiktResponse } from '../../services/types';
+import type { CardDraft, DictAbbr, DictInfo, FdError, FdInfo, Lookup, Meaning, FdResponse, WiktError, WiktResponse, Page } from '../../services/types';
 
 interface DictionaryProps {
   activeDict: DictAbbr;
-  resp: DictInfo;
-  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  cardDraft: [CardDraft | null, React.Dispatch<React.SetStateAction<CardDraft | null>>];
+  currentPage: [Page, React.Dispatch<React.SetStateAction<Page>>];
+  isLogged: boolean;
   lookupHistory: [
     Array<Lookup>, React.Dispatch<React.SetStateAction<Array<Lookup>>>
   ];
   lookupIdx: [number, React.Dispatch<React.SetStateAction<number>>];
+  resp: DictInfo;
+  selLang?: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
 }
 
 function Dictionary(props: DictionaryProps) {
@@ -22,12 +25,15 @@ function Dictionary(props: DictionaryProps) {
       return (
         <Entry
           key={entryId}
-          entryId={entryId}
           activeDict={activeDict}
+          cardDraft={props.cardDraft}
           entry={entry}
+          entryId={entryId}
           headword={headword}
+          isLogged={props.isLogged}
           lookupHistory={props.lookupHistory}
           lookupIdx={props.lookupIdx}
+          currentPage={props.currentPage}
           selLang={props.selLang}
         />
       );

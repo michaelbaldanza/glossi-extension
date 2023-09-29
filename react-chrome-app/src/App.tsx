@@ -1,30 +1,46 @@
 import { useEffect, useRef,useState } from 'react';
 import Nav from './components/Nav';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import NewCard from './pages/NewCard/NewCard';
 import { User } from './services/interfaces';
-import type { Lookup, Page } from './services/types';
+import type { CardDraft, Lookup, Page } from './services/types';
 import { collect } from './services/dictionaries';
 import Infobox from './pages/Infobox/Infobox';
 
 function App() {
+  const [cardDraft, setCardDraft] = useState<CardDraft | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [lookupHistory, setLookupHistory] = useState<Array<Lookup>>([]);
   const [textInputIsActive, setTextInputIsActive] = useState<boolean>(false);
   const [lookupIdx, setLookupIdx] = useState<number>(0);
   const [selLang, setSelLang] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<Page>('infobox');
+  const [currentPage, setCurrentPage] = useState<Page>('home');
   const fetchDataRef = useRef<((lookup: string) => Promise<void>) | null> (null);
-  console.log(`textInput is ${textInputIsActive ? 'active' : 'inactive'}`)
+  const anyLookup = () => lookupHistory.length > 0;
+
+  console.log(`textInput is ${textInputIsActive ? 'active' : 'inactive'}. anyLookup is ${anyLookup()}, num of looks up is ${lookupHistory.length}`)
+  console.log(lookupHistory)
+
   function turnPage() {
     const pages: Record<Page, JSX.Element> = {
       'cards': <div>Cards</div>,
       'decks': <div>Decks</div>,
+      'home': <Home
+        currentPage={[currentPage, setCurrentPage]}
+        lookupIdx={[lookupIdx, setLookupIdx]}
+        lookupHistory={[lookupHistory, setLookupHistory]}
+        selLang={[selLang, setSelLang]}
+        textInputIsActive={[textInputIsActive, setTextInputIsActive]}        
+      />,
       'infobox': <Infobox
+        cardDraft={[cardDraft, setCardDraft]}
+        currentPage={[currentPage, setCurrentPage]}
         lookupIdx={[lookupIdx, setLookupIdx]}
         lookupHistory={[lookupHistory, setLookupHistory]}
         selLang={[selLang, setSelLang]}
         textInputIsActive={[textInputIsActive, setTextInputIsActive]}
+        user={[user, setUser]}
         />,
       'login': <Login
         currentPage={[currentPage, setCurrentPage]}
@@ -32,7 +48,9 @@ function App() {
       />,
       'logout': <div>Log out</div>,
       'new-card': <NewCard
+        cardDraft={[cardDraft, setCardDraft]}
         currentPage={[currentPage, setCurrentPage]}
+        user={[user, setUser]}
       />,
       'profile': <div>Profile</div>,
       'signup': <div>Sign up</div>
@@ -138,7 +156,11 @@ function App() {
 
   return (
     <div>
-      <Nav currentPage={[currentPage, setCurrentPage]} user={[user, setUser]} />
+      <Nav
+        currentPage={[currentPage, setCurrentPage]}
+        anyLookup={anyLookup()}
+        user={[user, setUser]}
+      />
       <main className="container-fluid">{turnPage()}</main>
     </div>
   );
