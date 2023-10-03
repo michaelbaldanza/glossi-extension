@@ -294,3 +294,64 @@ Finish implementing navigation.
 ### September 28
 
 Add `useComponentVisible` component function. Remove `TextInputTogglerButton`. Instead, open `TextInput` by clicking on the heading, and close it by tabbing out or clicking outside of the input (but inside of the extension document).
+
+
+### October 3
+
+#### Other ways to open the extension
+
+##### Open the extension by clicking the toolbar icon
+
+Now, the user can click the toolbar icon to open the extension. I mostly followed the instructions for using `setPanelBehavior`. I had already addded a `"side_panel"` key with an object with a `"default_title"` key from a previous failed attempt to implement this feature. What remained was to use the `chrome.sidePanel` API, passing it an object with the signature `{ openPanelOnActionClick: true }`. I wrapped this in a function which I named `setUpIconAction()`, and called it, along with `setUpContextMenu()`, in the `chrome.runtime.onInstalled` listener.
+
+    function setupIconAction() {
+      chrome.sidePanel
+        .setPanelBehavior({ openPanelOnActionClick: true })
+        .catch((error) => console.error(error));
+    }
+
+    chrome.runtime.onInstalled.addListener(() => {
+      setupIconAction();
+      setUpContextMenu();
+    })
+
+##### Opening the panel from the context menu
+Most of the material for this was already on the page. All that remained was to call `chrome.sidePanel`'s `open()` method. I added this to the `contextMenus.onClicked` listener, passing a `tab` argument, to tell `open()` that I want to open the extension in all tabs on the current window. `open()` is only called if the option selected from the context menu (available on the `menuItemId` key, as defined by `setUpContextMenu()`) is equal to `'glossi-lookup'`. 
+
+    chrome.contextMenus.onClicked.addListener((data, tab) => {
+      if (data.menuItemId === 'glossi-lookup') {
+        chrome.sidePanel.open({ windowId: tab.windowId });
+      }
+      ...
+    })
+
+##### Sending the text selection to React
+
+While I found it easy enough to open the panel from the context menu, sending the text selction to React was another matter. `chrome.runtime`'s `sendMessage()` passed data to the extension, but the extension wasn't ready to receive the message. I needed to send a message from the React app to let my service worker know that it was ready to receive messages. Only then could my service worker send a message and have it be received.
+
+    // react-chrome-app/App.tsx
+    chrome.runtime.sendMessage({ reactIsReady: true });
+
+    // extension/js/service-worker.js
+    chrome.runtime.onMessage.addListener(({ reactIsReady }) => {
+      if (reactIsReady) {
+        sendSelection();
+      }
+    })
+
+This worked, but it opened an infinite loop. React told my service worker that it was ready, to which my service worker responded with a selection. React then added the selection to its `lookupHistory` state, which caused a rerender, passing the ready message again, which triggered the service worker again, which caused the look up to be sent again, which was then added to state again, which caused another rerender, and so on. To close this loop I initialized an `isReady` variable in my service worker, which I check when my `onMessage` listener receives React's readiness message. If isReady is `true`, then the full course has already be run. If not, `isReady` is set to true, and `sendSelection` is called.
+
+    // extension/js/service-worker.js
+
+    let isReady = false;
+
+    ...
+
+    chrome.runtime.onMessage.addListener(({ reactIsReady }) => {
+      if (isReady) return;
+      if (reactIsReady) {
+        isReady = true;
+        sendSelection();
+      }
+    });
+    

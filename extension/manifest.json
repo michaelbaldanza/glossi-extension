@@ -17,7 +17,7 @@
     "default_path": "sidepanel.html"
   },
   "action": {
-    "default_title": "Click to open panel"
+    "default_title": "Click to open the Glossi panel"
   },
   "permissions": [
     "sidePanel",

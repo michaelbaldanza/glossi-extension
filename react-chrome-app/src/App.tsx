@@ -19,9 +19,6 @@ function App() {
   const fetchDataRef = useRef<((lookup: string) => Promise<void>) | null> (null);
   const anyLookup = () => lookupHistory.length > 0;
 
-  console.log(`textInput is ${textInputIsActive ? 'active' : 'inactive'}. anyLookup is ${anyLookup()}, num of looks up is ${lookupHistory.length}`)
-  console.log(lookupHistory)
-
   function turnPage() {
     const pages: Record<Page, JSX.Element> = {
       'cards': <div>Cards</div>,
@@ -152,7 +149,11 @@ function App() {
         fetchDataRef.current(lookup);
       }
     });
+
+    chrome.runtime.sendMessage({ reactIsReady: true });
+
   }, [lookupIdx])
+
 
   return (
     <div>
