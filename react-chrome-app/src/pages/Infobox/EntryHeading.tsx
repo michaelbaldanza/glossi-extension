@@ -25,7 +25,7 @@ function EntryHeading(props: EntryHeadingProps) {
       }
       {
         entry.partOfSpeech ?
-        <div className="part-of-speech-container d-flex">
+        <div className="part-of-speech-container d-flex align-items-center">
           <h6 className="part-of-speech-heading faded">
             {entry.partOfSpeech.toLowerCase()}
           </h6>

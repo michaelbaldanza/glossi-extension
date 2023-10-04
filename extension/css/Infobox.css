@@ -3,8 +3,12 @@
   border-bottom: 1px rgba(211, 211, 211, 1) solid;
 }
 
-.infobox .btn, .infobox ol {
+.infobox .btn {
   padding: 0;
+}
+
+.infobox ol {
+  padding-left: 1.25rem;
 }
 
 .infobox h5, .infobox h6 {
